@@ -2,9 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --header-height: 5vh; /* Define a custom property for .App-header height */
+  --instructions-height: 10vh;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -13,14 +13,36 @@
   }
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+#calibration-instructions {
+  height: var(--instructions-height);
+  margin: 0px
+}
+
+#calibration-container {
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Optional background color */
+    border: 1px solid black;
+    margin: 0 auto;
+    height: calc(95vh - var(--header-height) - var(--instructions-height));
+    width: 95vw;
+    position: relative;
+}
+
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: var(--header-height);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(16px);
   color: white;
 }
 
@@ -35,4 +57,60 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+/* src/App.css */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.webcam-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 200px; /* Adjust as needed */
+  height: 150px; /* Adjust as needed */
+  z-index: 10;
+}
+
+.media-player-container {
+  width: 60%; /* Adjust as needed */
+  height: auto; /* Adjust as needed */
+  margin-top: 60px; /* Adjust to position in the middle */
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(.1, .1);
+    opacity: .75;
+  }
+  to {
+    transform: scale(3.5, 3.5);
+    opacity: 0;
+  }
+}
+
+.calibrationPointCircle {
+  background-color: yellow;
+  position: absolute;
+  opacity: 100;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  border-radius: 60%;
+  /* animation: scaleIn 2s infinite linear; */
+  transition: background-color 1.5s ease; /* Add this line */
+  caret-color: transparent;
+}
+
+#webgazerGazeDot {
+  width: 15px !important;
+  height: 15px !important;
+  opacity: 0.2 !important;
+  color: gold;
 }
