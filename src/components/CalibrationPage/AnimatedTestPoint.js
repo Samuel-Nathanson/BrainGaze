@@ -1,13 +1,11 @@
 import React from 'react';
 
 const AnimatedTestPoint = ({ x, y, visibility }) => {
-  const delays  = ['-3', '-2', '-1', '0'];
+  const delays = ['-3', '-2', '-1', '0'];
   const animationDuration = 4;
-  const animationDirection = 'reverse'
-  const animationFillMode = 'none'
-  const animationIterationCount = 1;
-  const color = 'blue'
-  
+  const animationDirection = 'reverse';
+  const color = 'blue';
+
   return (
     <>
       {delays.map((delay, index) => (
@@ -21,9 +19,9 @@ const AnimatedTestPoint = ({ x, y, visibility }) => {
             backgroundColor: color,
             animationDelay: `${delay}s`,
             animationName: 'scaleIn',
-            animationIterationCount: animationIterationCount,
+            animationIterationCount: 'infinite',
             animationTimingFunction: 'linear',
-            animationFillMode: animationFillMode,
+            animationFillMode: 'none',
             animationDuration: `${animationDuration}s`,
             animationDirection: animationDirection,
           }}

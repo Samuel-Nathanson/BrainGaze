@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" id="App-Header">
         <h1>Eye Tracking Application</h1>
       </header>
       {!consentGiven ? (

@@ -33,6 +33,10 @@ html, body {
     height: calc(95vh - var(--header-height) - var(--instructions-height));
     width: 95vw;
     position: relative;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: background 300ms ease-in 200ms;
 }
 
 .App-header {
@@ -95,6 +99,17 @@ html, body {
   }
 }
 
+@keyframes scaleInCustom {
+  to {
+    transform: scale(.01, .01);
+    opacity: .0.1;
+  }
+  from {
+    transform: scale(3.5, 3.5);
+    opacity: 0.2;
+  }
+}
+
 .calibrationPointCircle {
   background-color: yellow;
   position: absolute;
@@ -113,4 +128,24 @@ html, body {
   height: 15px !important;
   opacity: 0.2 !important;
   color: gold;
+}
+
+.table-centered {
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid black; /* Adjust the border as needed */
+  width: 80%; /* Adjust the width as needed */
+  border-collapse: collapse;
+}
+
+/* Style for table cells */
+.table-centered td {
+  border: 1px solid black;
+  padding: 4px 8px; /* Adjust padding as needed */
+}
+
+.testPoint {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
