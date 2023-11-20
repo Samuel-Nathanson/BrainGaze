@@ -6,6 +6,8 @@ const AnimatedTestPoint = ({ x, y, visibility }) => {
   const animationDirection = 'reverse';
   const color = 'blue';
 
+  // Check if this is the first calibration point
+
   return (
     <>
       {delays.map((delay, index) => (

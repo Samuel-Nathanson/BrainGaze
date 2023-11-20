@@ -5,39 +5,60 @@ import AnimatedTestPoint from './AnimatedTestPoint';
 import { Link } from 'react-router-dom';
 import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
+import { marked } from 'marked';
 
 class CalibrationComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPointIndex: 0,
-      calibrationComplete: false,
-      webgazerInitialized: false,
-      calibrationPoints: this.getInitializationPoints(),
-      testingComplete: false,
-			testing: false,
+			/* State signals */
+			calibrationStarted: false, // Needed to show instructions first before starting calibration
+      currentPointIndex: 0, // Needed to iterate through calibration / test points
+      calibrationComplete: false, // Needed to signal that calibration (training) is complete
+      webgazerInitialized: false, // Avoid initializing webgazer twice
+      testingComplete: false, // Signals that test is complete and statistics should be shown
+			testing: false, // Developer flag, skips some of the initial instructions (experimental)
+			showTestInstructions: false, // Signals display of instructions for testing calibration
+			showCalibrationStats: false, // Signals display of calibration stats
+      calibrationPoints: [], // Points to iterate over
       recordedGazeLocations: [], // To store recorded gaze locations
       recordedPointLocations: [], // To store recorded point locations
+			/* Statistics */ 
+			maxRSE: null, 
+			minRSE: null,
       rootMeanSquaredError: null, // To store the computed MSE
 			semimajorAxisLength: null,
 			semiminorAxisLength: null,
-			rotationAngleDegrees: null
+			rotationAngleDegrees: null,
+			/* Instructions Markdown */
+			calibrationInstructionsMd: '',
+			calibratedTestInstructionsMd: '',
     };
 
 		if(!this.state.webgazerInitialized) {
+			/* Don't show subject video, could be distracting */
 			webgazer.showVideo(false);
+			/* Don't show prediction points, could also be distracting */
 			webgazer.showPredictionPoints(false);
+			/* Clears previous cached data for a fresh calibration */
 			webgazer.clearData();
+			/* Starts webgazer data collection */
 			webgazer.begin();
+			this.state.webgazerInitialized = true;
 		}
+
+		this.state.calibrationPoints = this.getInitializationPoints();
   }
 
   componentWillUnmount() {
+		/* This ends webgazer data collection. It's sometimes buggy, and we also don't want to turn it off yet */
     // webgazer.end();
   }
 
 	getInitializationPoints() {
-		const calibrationPoints = [
+		let points = [];
+		/* x, y percentages of viewport size */
+		points = [
 			{ x: '10%', y: '10%' }, // top-left
 			{ x: '50%', y: '10%' }, // middle-top
 			{ x: '90%', y: '10%' }, // top-right
@@ -47,31 +68,46 @@ class CalibrationComponent extends Component {
 			{ x: '10%', y: '90%' }, // bottom-left
 			{ x: '50%', y: '90%' }, // middle-bottom
 			{ x: '90%', y: '90%' } // bottom-right
-			];
-
-			return calibrationPoints;
+		];
+		return points;
   }
 
   componentDidMount() {
-		if(this.state.testing) {
-			this.setState({calibrationComplete: true})
-		}
+		/* Runs when the page is successfully loaded */
+
+		/* Fetches the markdown instructions */
+		fetch('/markdown/calibration-instructions.md') // Update with your markdown file path
+		.then(response => response.text())
+		.then(text => this.setState({ calibrationInstructionsMd: marked.parse(text) }))
+		.catch(error => console.error('Error loading markdown:', error));
+
+		fetch('/markdown/calibrated-test-instructions.md') // Update with your markdown file path
+		.then(response => response.text())
+		.then(text => this.setState({ calibratedTestInstructionsMd: marked.parse(text) }))
+		.catch(error => console.error('Error loading markdown:', error));
+
+		/* Give the user time before starting the calibration training */
+		setTimeout(() => {this.setState({calibrationStarted: true})}, 10000)
+
+		/* Start calibration */
 		if(!this.state.calibrationComplete) {
 			console.log("Starting calibration...")
-			setTimeout(() => {
+			setTimeout(() => { // The first point will show for 4 more seconds  ..
+				/* Required to iterate over calibration points */
 				this.showPointsInterval = setInterval(() => {
 					this.setState({ currentPointIndex: this.state.currentPointIndex+1 });
 					if (this.state.currentPointIndex === this.state.calibrationPoints.length) {
 						this.setState({calibrationComplete: true});
-						clearInterval(this.showPointsInterval);
+						clearInterval(this.showPointsInterval); 
 					}
-				}, 5000);
+				}, 4000);
 			}, 4000);
 		}
 	}
 
   // Function to record gaze and point locations
   recordLocations = async () => {
+		/* Records user clicks and corresponding calibration points, data stored for evaluation */
     const { calibrationPoints, currentPointIndex } = this.state;
     const currentPoint = calibrationPoints[currentPointIndex];
     const recordedGazeLocations = [...this.state.recordedGazeLocations];
@@ -80,9 +116,9 @@ class CalibrationComponent extends Component {
 		try {
 
 			// Simulate getting the predicted gaze location
-			// Simulate getting the predicted gaze location
 			const predictedGazeLocation = await webgazer.getCurrentPrediction();
 
+			/* Computations to get a good estimate of calibration points in pixel space */
 			// Get the height of the calibration-instructions element
 			const calibrationInstructionsElement = document.getElementById('calibration-instructions');
 			const calibrationInstructionsHeight = calibrationInstructionsElement ? calibrationInstructionsElement.clientHeight : 0;
@@ -109,12 +145,16 @@ class CalibrationComponent extends Component {
 		}
   };
 
-  // Function to compute mean squared error
-  computeRootMeanSquaredError = () => {
+  /* Function to compute mean squared error (statistic to display) */
+	/* Also computes other statistics, e.g. minRSE, maxRSE, stdDevX, stdDevY */
+	/* TODO: AI-Generated Code by GPT-4, need to double check */ 
+	computeRootMeanSquaredError = () => {
 		const { recordedGazeLocations, recordedPointLocations } = this.state;
 		let mse = 0;
 		let varianceX = 0;
 		let varianceY = 0;
+		let maxSE = 0;
+		let minSE = Infinity;
 	
 		// Calculate the mean squared error and variances
 		for (let i = 0; i < recordedGazeLocations.length; i++) {
@@ -122,7 +162,14 @@ class CalibrationComponent extends Component {
 			const pointLocation = recordedPointLocations[i];
 			const dx = gazeLocation[0] - pointLocation[0];
 			const dy = gazeLocation[1] - pointLocation[1];
-			mse += dx * dx + dy * dy;
+			const se = dx * dx + dy * dy;
+			if (se < minSE) {
+				minSE = se;
+			}
+			if (se > maxSE) {
+				maxSE = se;
+			}
+			mse += se
 			varianceX += dx * dx;
 			varianceY += dy * dy;
 		}
@@ -144,10 +191,14 @@ class CalibrationComponent extends Component {
 			standardDeviationY: stdDevY,
 			varianceX: varX,
 			varianceY: varY,
+			maxRSE: Math.sqrt(maxSE),
+			minRSE: Math.sqrt(minSE)
 		});
 	};
 
 	compute95ConfidenceEllipse = () => {
+		/* Computes 95% confidence ellipse semimajor axis length, semiminor axis length */
+		/* TODO: AI-Generated Code by GPT-4, need to double check */ 
 		const { recordedGazeLocations, recordedPointLocations } = this.state;
 
 		// const recordedGazeLocationsDummy = [[-6, 248], [723, 390], [1213, 328], [-162, 924], [569, 843], [1243, 842], [122, 1272], [790, 1197], [1181, 1229]];
@@ -207,17 +258,22 @@ class CalibrationComponent extends Component {
 	
   // Function to run the calibrated test with intervals
   runCalibratedTest = () => {
+		/* Runs a performance test on the already-calibrated gaze tracker */
 		console.log("Running test with calibrated eye tracker...")
 
     webgazer.showPredictionPoints(true);
-    this.setState({ currentPointIndex: 0 });
+		webgazer.removeMouseEventListeners();
+
+    this.setState({ currentPointIndex: 0,
+										calibrationPoints: this.getInitializationPoints(),
+									 	showTestInstructions: false});
     this.showPointsInterval = setInterval(() => {
       this.setState({ currentPointIndex: this.state.currentPointIndex + 1 });
 
       // Record gaze and point locations at the end of the interval
       this.recordLocations();
 
-      if (this.state.currentPointIndex === this.state.calibrationPoints.length) {
+      if (this.state.currentPointIndex === this.state.calibrationPoints.length - 1) {
         clearInterval(this.showPointsInterval);
 				this.setState({testingComplete: true})
 
@@ -227,87 +283,131 @@ class CalibrationComponent extends Component {
 				this.compute95ConfidenceEllipse();
 				webgazer.pause()
       }
-    }, 4000); // Adjust the delay time as needed
+    }, 10000); // Adjust the delay time as needed
   };
 
   componentDidUpdate(prevProps, prevState) {
+		// Show the test instructions for the performance test
     if (this.state.calibrationComplete && !prevState.calibrationComplete) {
-      this.runCalibratedTest();
+			this.setState({showTestInstructions: true});
+			setTimeout(this.runCalibratedTest, 10000);
     }
   }
 
+	// Toggle function for calibration statistics dropdown
+  toggleCalibrationStats = () => {
+    this.setState(prevState => ({
+      showCalibrationStats: !prevState.showCalibrationStats
+    }));
+  };
+
   render() {
-    return (
-      <div id='calibration-container' style={{ backgroundImage: this.state.calibrationComplete ? '' : '' }}>
-        {this.state.calibrationPoints.map((point, index) => (
-					this.state.calibrationComplete ? 
-						<AnimatedTestPoint 
-							x={point.x}
-							y={point.y}
-							visibility={(this.state.currentPointIndex === index && this.state.calibrationComplete) 
-								? 'visible' : 'hidden'}
-						/> :
-						<AnimatedCalibrationPoint 
-						x={point.x}
-						y={point.y}
-						visibility={(this.state.currentPointIndex === index && !this.state.calibrationComplete) 
-							? 'visible' : 'hidden'}
-					/> 
-				))}
-				<> {this.state.testingComplete ? (
-					<>
-						<h2> Calibration complete! </h2>
-						<p> Click below to proceed to the next step </p>
-						<Link to="/media-view">Click here to proceed</Link>
-						<br/><br/>
-						<h2>Calibration Statistics</h2>
-						<ErrorVisualization semiMaj={this.state.semimajorAxisLength} 
-																semiMin={this.state.semiminorAxisLength} 
-																rotationDeg={this.state.rotationAngleDegrees}/>
-						<table className='table-centered'>
-							<tbody>
-								<tr>
-									<td>Root Mean Squared Error (RMSE):</td>
-									<td>{this.state.rootMeanSquaredError}</td>
-								</tr>
-								<tr>
-									<td>Standard Deviation X:</td>
-									<td>{this.state.standardDeviationX}</td>
-								</tr>
-								<tr>
-									<td>Standard Deviation Y:</td>
-									<td>{this.state.standardDeviationY}</td>
-								</tr>
-								<tr>
-									<td>95% Confidence Ellipse Semimajor Length:</td>
-									<td>{this.state.semimajorAxisLength}</td>
-								</tr>
-								<tr>
-									<td>95% Confidence Ellipse Semiminor Length:</td>
-									<td>{this.state.semiminorAxisLength}</td>
-								</tr>
-								<tr>
-									<td>95% Confidence Ellipse Rotation (Degrees):</td>
-									<td>{this.state.rotationAngleDegrees}</td>
-								</tr>
-								<tr>
-									<td>Gaze Predictions:</td>
-									<td>{JSON.stringify(this.state.recordedGazeLocations)}</td>
-								</tr>
-								<tr>
-									<td>Point Locations:</td>
-									<td>{JSON.stringify(this.state.recordedPointLocations)}</td>
-								</tr>
-							</tbody>
-						</table>
+
+		if(this.state.calibrationStarted) {
+			return (
+				<>
+				<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationComplete ? this.state.calibratedTestInstructionsMd : this.state.calibrationInstructionsMd }} />
+				<div id='calibration-container' style={{ minHeight: this.state.showCalibrationStats? '130vh' : '' }}>
+					{/* Calibration Phase (Green, Yellow, and Blue Circles) */}
+					{this.state.showTestInstructions ? (<><br/><br/><div><h2>Now, simply focus on the center of each <span className='blue-font'>blue</span> circle.</h2></div></>) 
+					: this.state.calibrationPoints.map((point, index) => (
+						this.state.calibrationComplete ? 
+							(<AnimatedTestPoint
+									x={point.x}
+									y={point.y}
+									visibility={(this.state.currentPointIndex === index && this.state.calibrationComplete) 
+										? 'visible' : 'hidden'}
+								/>) :
+							<AnimatedCalibrationPoint 
+								x={point.x}
+								y={point.y}
+								visibility={(this.state.currentPointIndex === index && !this.state.calibrationComplete) 
+									? 'visible' : 'hidden'}
+						/> 
+					))}
+	
+					{/* Completion (Show Statistics) */}
+					<> {this.state.testingComplete ? (
+						<>
+							<h2> Calibration complete! </h2>
+							<p> Click below to proceed to the next step </p>
+							<Link to="/media-view">Click here to proceed</Link>
+							<br/><br/>
+							<h2 
+								className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`} 
+								onClick={this.toggleCalibrationStats}
+							>
+							Calibration Statistics
+							</h2>
+							{/* Dropdown content for calibration statistics */}
+							{this.state.showCalibrationStats ? (
+								<>
+								<br/>
+								<ErrorVisualization semiMaj={this.state.semimajorAxisLength} 
+																		semiMin={this.state.semiminorAxisLength} 
+																		rotationDeg={this.state.rotationAngleDegrees}/>
+								<table className='table-centered'>
+									<tbody>
+										<tr>
+											<td>Root Mean Squared Error (RMSE):</td>
+											<td>{this.state.rootMeanSquaredError}</td>
+										</tr>
+										<tr>
+											<td>Standard Deviation X:</td>
+											<td>{this.state.standardDeviationX}</td>
+										</tr>
+										<tr>
+											<td>Standard Deviation Y:</td>
+											<td>{this.state.standardDeviationY}</td>
+										</tr>
+										<tr>
+											<td>Maximum Error:</td>
+											<td>{this.state.maxRSE}</td>
+										</tr>
+										<tr>
+											<td>Minimum Error:</td>
+											<td>{this.state.minRSE}</td>
+										</tr>
+										<tr>
+											<td>95% Confidence Ellipse Semimajor Length:</td>
+											<td>{this.state.semimajorAxisLength}</td>
+										</tr>
+										<tr>
+											<td>95% Confidence Ellipse Semiminor Length:</td>
+											<td>{this.state.semiminorAxisLength}</td>
+										</tr>
+										<tr>
+											<td>95% Confidence Ellipse Rotation (Degrees):</td>
+											<td>{this.state.rotationAngleDegrees}</td>
+										</tr>
+										<tr>
+											<td>Gaze Predictions:</td>
+											<td>{JSON.stringify(this.state.recordedGazeLocations)}</td>
+										</tr>
+										<tr>
+											<td>Point Locations:</td>
+											<td>{JSON.stringify(this.state.recordedPointLocations)}</td>
+										</tr>
+									</tbody>
+								</table>
+								</>
+							) : <></>}
+							</>
+						) : (
+							<br />
+						)}
 					</>
-					) : (
-						<br />
-					)}
+						
+				</div>
 				</>
-					
-      </div>
-    );
+			);
+		} 
+		else {
+			return (<>
+				<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationComplete ? this.state.calibratedTestInstructionsMd : this.state.calibrationInstructionsMd }} />
+				<div id='calibration-container' />
+				</>);
+		}
   }
 }
 

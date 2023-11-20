@@ -91,7 +91,7 @@ html, body {
 @keyframes scaleIn {
   from {
     transform: scale(.1, .1);
-    opacity: .75;
+    opacity: .9;
   }
   to {
     transform: scale(3.5, 3.5);
@@ -148,4 +148,31 @@ html, body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transition: all 0.3s;
+  transform-origin: 66% 66%;
+}
+
+.dropdown-toggle.open::after {
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.blue-font {
+  color: blue;
 }
