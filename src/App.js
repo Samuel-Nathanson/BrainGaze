@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import InstructionsPage from './components/InstructionsPage/InstructionsPage';
 import CalibrationPage from './components/CalibrationPage/CalibrationPage';
 import MediaViewPage from './components/MediaViewPage/MediaViewPage';
-
+import WebcamSettingsPage from './components/WebcamSettingsPage/WebcamSettingsPage'
 import InformedConsent from './components/InformedConsent';
 
 import './App.css';
@@ -30,6 +30,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<InstructionsPage />} />
+            <Route path="/webcam-settings" element={<WebcamSettingsPage />} />
             <Route path="/calibration" element={<CalibrationPage />} />
             <Route path="/media-view" element={<MediaViewPage />} />
           </Routes>

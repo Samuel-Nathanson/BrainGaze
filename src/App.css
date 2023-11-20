@@ -176,3 +176,7 @@ html, body {
 .blue-font {
   color: blue;
 }
+
+#webcam-test {
+  border: 15px solid  black;
+}

@@ -17,6 +17,8 @@ const InstructionsPage = () => {
     <div>
       <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <Link to="/calibration">Start Calibration</Link>
+      <br/><br/>
+      <Link to="/webcam-settings">Setup Webcam</Link>
     </div>
   );
 };
