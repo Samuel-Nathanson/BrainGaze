@@ -27,8 +27,12 @@ class CalibrationComponent extends Component {
 			maxRSE: null, 
 			minRSE: null,
       rootMeanSquaredError: null, // To store the computed MSE
-			semimajorAxisLength: null,
-			semiminorAxisLength: null,
+			semimajorAxisLength95: null,
+			semiminorAxisLength95: null,
+			semimajorAxisLength90: null,
+			semiminorAxisLength90: null,
+			semimajorAxisLength75: null,
+			semiminorAxisLength75: null,
 			rotationAngleDegrees: null,
 			/* Instructions Markdown */
 			calibrationInstructionsMd: '',
@@ -239,19 +243,34 @@ class CalibrationComponent extends Component {
 		const eigenvalues = eigenDecomposition.lambda.x;
 		const eigenvectors = eigenDecomposition.E.x;
 
-		// Scale factors for 95% confidence interval (Chi-square distribution)
-		const scaleFactor = Math.sqrt(5.991); // Approx value for 95% confidence
-
-		const axisLengthsSquared = eigenvalues.map(lambda => lambda * scaleFactor * scaleFactor);
-		const sortedAxisLengths = axisLengthsSquared.sort((a, b) => b - a);
-		const semimajorAxisLength = Math.sqrt(sortedAxisLengths[0]);
-		const semiminorAxisLength = Math.sqrt(sortedAxisLengths[1]);
-
 		// Calculate rotation angle from eigenvectors
 		const rotationAngleRadians = Math.atan2(eigenvectors[0][1], eigenvectors[0][0]);
 		const rotationAngleDegrees = rotationAngleRadians * (180 / Math.PI);
 
-		this.setState({ semimajorAxisLength, semiminorAxisLength, rotationAngleDegrees });
+		// Scale factors for 95% confidence interval (Chi-square distribution)
+		const scaleFactor95 = Math.sqrt(5.991); // Approx value for 95% confidence
+		const scaleFactor90 = Math.sqrt(4.605); // Approx value for 90% confidence
+		const scaleFactor75 = Math.sqrt(2.773); // Approx value for 75% confidence
+
+		let axisLengthsSquared = eigenvalues.map(lambda => lambda * scaleFactor95 * scaleFactor95);
+		let sortedAxisLengths = axisLengthsSquared.sort((a, b) => b - a);
+		const semimajorAxisLength95 = Math.sqrt(sortedAxisLengths[0]);
+		const semiminorAxisLength95 = Math.sqrt(sortedAxisLengths[1]);
+
+		axisLengthsSquared = eigenvalues.map(lambda => lambda * scaleFactor90 * scaleFactor90);
+		sortedAxisLengths = axisLengthsSquared.sort((a, b) => b - a);
+		const semimajorAxisLength90 = Math.sqrt(sortedAxisLengths[0]);
+		const semiminorAxisLength90 = Math.sqrt(sortedAxisLengths[1]);
+
+		axisLengthsSquared = eigenvalues.map(lambda => lambda * scaleFactor75 * scaleFactor75);
+		sortedAxisLengths = axisLengthsSquared.sort((a, b) => b - a);
+		const semimajorAxisLength75 = Math.sqrt(sortedAxisLengths[0]);
+		const semiminorAxisLength75 = Math.sqrt(sortedAxisLengths[1]);
+
+		this.setState({ semimajorAxisLength95, semiminorAxisLength95, rotationAngleDegrees });
+		this.setState({ semimajorAxisLength90, semiminorAxisLength90, rotationAngleDegrees });
+		this.setState({ semimajorAxisLength75, semiminorAxisLength75, rotationAngleDegrees });
+
 	};
 
 
@@ -343,8 +362,8 @@ class CalibrationComponent extends Component {
 							{this.state.showCalibrationStats ? (
 								<>
 								<br/>
-								<ErrorVisualization semiMaj={this.state.semimajorAxisLength} 
-																		semiMin={this.state.semiminorAxisLength} 
+								<ErrorVisualization semiMajs={[this.state.semimajorAxisLength95, this.state.semimajorAxisLength90 ,this.state.semimajorAxisLength75]} 
+																		semiMins={[this.state.semiminorAxisLength95, this.state.semiminorAxisLength90, this.state.semiminorAxisLength75]} 
 																		rotationDeg={this.state.rotationAngleDegrees}/>
 								<table className='table-centered'>
 									<tbody>
