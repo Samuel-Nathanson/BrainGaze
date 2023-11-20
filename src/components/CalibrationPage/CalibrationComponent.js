@@ -101,7 +101,7 @@ class CalibrationComponent extends Component {
 						clearInterval(this.showPointsInterval); 
 					}
 				}, 4000);
-			}, 4000);
+			}, 14000);
 		}
 	}
 
@@ -309,7 +309,7 @@ class CalibrationComponent extends Component {
 				<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationComplete ? this.state.calibratedTestInstructionsMd : this.state.calibrationInstructionsMd }} />
 				<div id='calibration-container' style={{ minHeight: this.state.showCalibrationStats? '130vh' : '' }}>
 					{/* Calibration Phase (Green, Yellow, and Blue Circles) */}
-					{this.state.showTestInstructions ? (<><br/><br/><div><h2>Now, simply focus on the center of each <span className='blue-font'>blue</span> circle.</h2></div></>) 
+					{this.state.showTestInstructions ? (<><br/><br/><div dangerouslySetInnerHTML={{__html: this.state.calibratedTestInstructionsMd}}></div></>) 
 					: this.state.calibrationPoints.map((point, index) => (
 						this.state.calibrationComplete ? 
 							(<AnimatedTestPoint
