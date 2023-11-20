@@ -1,10 +1,42 @@
-# Getting Started with Create React App
+# Brain Gaze
+
+<img src="https://github.com/Samuel-Nathanson/BrainGaze/blob/master/public/media/images/BrainGaze.png" width="400" />
+
+## Overview
+Brain Gaze is a web-based eye-tracking application designed for crowdsourcing data gathering. It leverages webcam technology for tracking eye movements and facial expressions, with the primary goal of enhancing research and analysis in fields like neuromarketing and behavioral analysis. The application is built using JavaScript React and Flask, with a focus on user privacy and data security.
+
+## Anticipated Features Checklist
+- [x] **Webcam-Based Eye Tracking**: Implement eye tracking using the user's webcam.
+- [ ] **Facial Expression Recognition**: Capability to recognize and analyze facial expressions.
+- [ ] **Crowdsourced Data Collection**: Facilitate large-scale data collection from various users.
+- [ ] **Data Analysis and Visualization**: Tools for analyzing the collected data and visualizing results.
+- [ ] **User Experience Design**: Intuitive navigation and clear instructions for users.
+- [ ] **Security Measures**: Ensure data encryption and user privacy.
+- [x] **Informed Consent Protocol**: Flexible consent mechanism adaptable to different IRB requirements.
+- [ ] **Administrator and User Roles**: Distinct access and control for administrators and users.
+- [x] **Eye Tracking Calibration**: Accurate calibration process for each user session.
+- [x] **Performance Evaluation**: Post-calibration accuracy evaluation feature.
+- [ ] **React Web Application**: Front-end development with React.js.
+- [ ] **Flask Backend**: Server application built with Flask.
+- [x] **AWS Hosting**: Deployment on Amazon Web Services.
+- [ ] **Google CoLab Integration**: Initial data analysis and visualization in Google CoLab notebooks.
+- [ ] **Documentation**: Comprehensive documentation for different roles.
+- [ ] **Data Deletion Option (Right to be Forgotten)**: Allow users to request data deletion.
+
+## Development Notes
+- The `CalibrationComponent` class is a crucial part of the application, handling the calibration and data collection processes.
+- Calibration points and gaze locations are dynamically managed and stored in the component's state.
+- The application utilizes `webgazer.js` for eye tracking and calibration.
+- Additional features and improvements are marked with "TODO" comments for future implementation.
+
+## Conclusion
+Brain Gaze aims to be a versatile and powerful tool for collecting and analyzing eye-tracking and facial expression data. Its development focuses on creating an intuitive user experience while adhering to high standards of data security and privacy.
+
+# React UI Information
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
+In the UI directory, you can run:
 
 ### `npm start`
 
@@ -29,42 +61,8 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
