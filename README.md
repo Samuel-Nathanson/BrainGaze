@@ -1,5 +1,7 @@
 # Brain Gaze
 
+<img src="https://github.com/Samuel-Nathanson/BrainGaze/blob/master/public/media/images/BrainGaze.png" width="400" />
+
 ## Overview
 Brain Gaze is a web-based eye-tracking application designed for crowdsourcing data gathering. It leverages webcam technology for tracking eye movements and facial expressions, with the primary goal of enhancing research and analysis in fields like neuromarketing and behavioral analysis. The application is built using JavaScript React and Flask, with a focus on user privacy and data security.
 
