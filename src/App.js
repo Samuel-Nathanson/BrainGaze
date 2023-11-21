@@ -13,7 +13,7 @@ import './App.css';
 // ... other imports
 
 function App() {
-  const [consentGiven, setConsentGiven] = useState(false);
+  const [consentGiven, setConsentGiven] = useState(false); // TODO: change this back in the future
 
   const handleConsent = () => {
     setConsentGiven(true);

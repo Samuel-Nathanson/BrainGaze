@@ -42,8 +42,6 @@ const WebcamSettingsPage = () => {
           <br/>
           <Webcam
             id='webcam-test'
-            width="90%"
-            height="80%"
             audio={false}
             screenshotFormat="image/jpeg"
           />

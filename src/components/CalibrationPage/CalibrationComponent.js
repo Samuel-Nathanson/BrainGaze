@@ -300,6 +300,7 @@ class CalibrationComponent extends Component {
         // All intervals are complete, compute MSE
         this.computeRootMeanSquaredError();
 				this.compute95ConfidenceEllipse();
+				webgazer.showPredictionPoints(false);
 				webgazer.pause()
       }
     }, 10000); // Adjust the delay time as needed
@@ -345,7 +346,12 @@ class CalibrationComponent extends Component {
 				<>
 					<h2> Calibration complete! </h2>
 					<p> Click below to proceed to the next step </p>
-					<Link to="/media-view">Click here to proceed</Link>
+					<Link to={{pathname: "/media-view", state: {
+									semimajorAxisLength: this.state.semimajorAxisLength95,
+									semiminorAxisLength: this.state.semiminorAxisLength95,
+									rotationAngleDegrees: this.state.rotationAngleDegrees,
+									webgazerInitialized: this.state.webgazerInitialized
+					}}}>Click here to proceed</Link>
 					<br/><br/>
 					<h2 
 							className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`} 
@@ -384,11 +390,11 @@ class CalibrationComponent extends Component {
 										</tr>
 										<tr>
 											<td>95% Confidence Ellipse Semimajor Length:</td>
-											<td>{this.state.semimajorAxisLength}</td>
+											<td>{this.state.semimajorAxisLength95}</td>
 										</tr>
 										<tr>
 											<td>95% Confidence Ellipse Semiminor Length:</td>
-											<td>{this.state.semiminorAxisLength}</td>
+											<td>{this.state.semiminorAxisLength95}</td>
 										</tr>
 										<tr>
 											<td>95% Confidence Ellipse Rotation (Degrees):</td>

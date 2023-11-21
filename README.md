@@ -16,7 +16,7 @@ Brain Gaze is a web-based eye-tracking application designed for crowdsourcing da
 - [ ] **Administrator and User Roles**: Distinct access and control for administrators and users.
 - [x] **Eye Tracking Calibration**: Accurate calibration process for each user session.
 - [x] **Performance Evaluation**: Post-calibration accuracy evaluation feature.
-- [ ] **React Web Application**: Front-end development with React.js.
+- [x] **React Web Application**: Front-end development with React.js.
 - [ ] **Flask Backend**: Server application built with Flask.
 - [x] **AWS Hosting**: Deployment on Amazon Web Services.
 - [ ] **Google CoLab Integration**: Initial data analysis and visualization in Google CoLab notebooks.
