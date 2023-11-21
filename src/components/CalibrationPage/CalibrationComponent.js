@@ -322,50 +322,45 @@ class CalibrationComponent extends Component {
 
   render() {
 
-		if(this.state.calibrationStarted) {
+		if(this.state.showTestInstructions) {
 			return (
 				<>
-				<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationComplete ? this.state.calibratedTestInstructionsMd : this.state.calibrationInstructionsMd }} />
-				<div id='calibration-container' style={{ minHeight: this.state.showCalibrationStats? '130vh' : '' }}>
-					{/* Calibration Phase (Green, Yellow, and Blue Circles) */}
-					{this.state.showTestInstructions ? (<><br/><br/><div dangerouslySetInnerHTML={{__html: this.state.calibratedTestInstructionsMd}}></div></>) 
-					: this.state.calibrationPoints.map((point, index) => (
-						this.state.calibrationComplete ? 
-							(<AnimatedTestPoint
-									x={point.x}
-									y={point.y}
-									visibility={(this.state.currentPointIndex === index && this.state.calibrationComplete) 
-										? 'visible' : 'hidden'}
-								/>) :
-							<AnimatedCalibrationPoint 
-								x={point.x}
-								y={point.y}
-								visibility={(this.state.currentPointIndex === index && !this.state.calibrationComplete) 
-									? 'visible' : 'hidden'}
-						/> 
-					))}
-	
-					{/* Completion (Show Statistics) */}
-					<> {this.state.testingComplete ? (
-						<>
-							<h2> Calibration complete! </h2>
-							<p> Click below to proceed to the next step </p>
-							<Link to="/media-view">Click here to proceed</Link>
-							<br/><br/>
-							<h2 
-								className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`} 
-								onClick={this.toggleCalibrationStats}
-							>
-							Calibration Statistics
-							</h2>
-							{/* Dropdown content for calibration statistics */}
-							{this.state.showCalibrationStats ? (
-								<>
-								<br/>
-								<ErrorVisualization semiMajs={[this.state.semimajorAxisLength95, this.state.semimajorAxisLength90 ,this.state.semimajorAxisLength75]} 
+					<div id='calibration-container'>
+						<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibratedTestInstructionsMd }} />
+					</div>
+				</>);
+		}
+
+		if(!this.state.calibrationStarted) {
+			return (
+				<>
+					<div id='calibration-container'>
+						<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationInstructionsMd }} />
+					</div>
+				</>);
+		}
+
+		if(this.state.testingComplete) {
+			return (
+				<>
+					<h2> Calibration complete! </h2>
+					<p> Click below to proceed to the next step </p>
+					<Link to="/media-view">Click here to proceed</Link>
+					<br/><br/>
+					<h2 
+							className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`} 
+							onClick={this.toggleCalibrationStats}>
+						Calibration Statistics
+					</h2>
+					<br/>
+					<br/>
+					{this.state.showCalibrationStats ? 
+						(<>
+							<br/>
+							<ErrorVisualization semiMajs={[this.state.semimajorAxisLength95, this.state.semimajorAxisLength90 ,this.state.semimajorAxisLength75]} 
 																		semiMins={[this.state.semiminorAxisLength95, this.state.semiminorAxisLength90, this.state.semiminorAxisLength75]} 
 																		rotationDeg={this.state.rotationAngleDegrees}/>
-								<table className='table-centered'>
+							<table className='table-centered'>
 									<tbody>
 										<tr>
 											<td>Root Mean Squared Error (RMSE):</td>
@@ -408,25 +403,39 @@ class CalibrationComponent extends Component {
 											<td>{JSON.stringify(this.state.recordedPointLocations)}</td>
 										</tr>
 									</tbody>
-								</table>
-								</>
-							) : <></>}
-							</>
-						) : (
-							<br />
-						)}
-					</>
-						
+							</table>
+						</>)
+						: (<></>)
+					}
+				</>
+			)
+		}
+
+		if(this.state.calibrationStarted && !this.state.showTestInstructions && !this.state.testingComplete) {
+			return (
+				<>
+				<div id='calibration-container'>
+					{/* Calibration Phase (Green, Yellow, and Blue Circles) */}
+					{this.state.calibrationPoints.map((point, index) => (
+						this.state.calibrationComplete ? 
+							(<AnimatedTestPoint
+									x={point.x}
+									y={point.y}
+									visibility={(this.state.currentPointIndex === index && this.state.calibrationComplete) 
+										? 'visible' : 'hidden'}
+								/>) :
+							<AnimatedCalibrationPoint 
+								x={point.x}
+								y={point.y}
+								visibility={(this.state.currentPointIndex === index && !this.state.calibrationComplete) 
+									? 'visible' : 'hidden'}
+						/> 
+					))}
 				</div>
 				</>
 			);
-		} 
-		else {
-			return (<>
-				<div id='calibration-instructions' dangerouslySetInnerHTML={{ __html: this.state.calibrationComplete ? this.state.calibratedTestInstructionsMd : this.state.calibrationInstructionsMd }} />
-				<div id='calibration-container' />
-				</>);
 		}
+
   }
 }
 

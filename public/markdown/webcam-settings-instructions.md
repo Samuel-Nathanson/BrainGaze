@@ -1,3 +1,3 @@
 <h1> Webcam Settings </h1>
 
-Instructions go here...
+Webcam is enabled! Now, click "Start Calibration" below..

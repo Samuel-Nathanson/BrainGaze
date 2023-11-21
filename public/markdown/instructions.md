@@ -2,4 +2,4 @@
 
 Welcome to BrainGaze! 
 
-To get started, click "Start Calibration" below. 
+To get started, click "Setup Webcam" below.

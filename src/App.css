@@ -17,6 +17,13 @@ html, body {
   margin: 0;
   padding: 0;
   border: 0;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #calibration-instructions {
@@ -30,13 +37,15 @@ html, body {
     background-color: #f0f0f0; /* Optional background color */
     border: 1px solid black;
     margin: 0 auto;
-    height: calc(95vh - var(--header-height) - var(--instructions-height));
+    height: calc(97vh - var(--header-height));
     width: 95vw;
+    margin-top: 15px;
     position: relative;
     background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: center center;
     transition: background 300ms ease-in 200ms;
+
 }
 
 .App-header {
@@ -48,6 +57,7 @@ html, body {
   justify-content: center;
   font-size: calc(16px);
   color: white;
+
 }
 
 .App-link {

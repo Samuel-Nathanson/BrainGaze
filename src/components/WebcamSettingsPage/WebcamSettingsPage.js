@@ -1,6 +1,5 @@
 // src/components/WebcamSettingsPage/WebcamSettingsPage.js
 import React, { useState, useEffect } from 'react';
-import { marked } from 'marked';
 import { Link } from 'react-router-dom';
 import Webcam from 'react-webcam';
 
@@ -33,19 +32,24 @@ const WebcamSettingsPage = () => {
 
   return (
     <div>
-      <Link to="/">Back</Link> {/* Update the href with your desired route */}
+      {/* <Link to="/">Back</Link> Update the href with your desired route */}
       <div dangerouslySetInnerHTML={{ __html: markdown }} />
       <br/>
       {webcamActive ? (
-        <Webcam
-          id='webcam-test'
-          width="90%"
-          height="80%"
-          audio={false}
-          screenshotFormat="image/jpeg"
-        />
+        <>
+          <Link to="/calibration">Start Calibration</Link>
+          <br/>
+          <br/>
+          <Webcam
+            id='webcam-test'
+            width="90%"
+            height="80%"
+            audio={false}
+            screenshotFormat="image/jpeg"
+          />
+        </>
       ) : (
-        <p>Unable to access webcam.</p>
+        <p>Unable to access webcam..</p>
       )}
     </div>
   );
