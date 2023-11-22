@@ -20,6 +20,7 @@ class MediaViewPage extends Component {
 
   setupWebgazer() {
     
+    // TODO : Need to double check that webgazer is still calibrated from the calibration step
     /* Don't show subject video, could be distracting */
     webgazer.showVideo(false);
     /* Don't show prediction points, could also be distracting */
@@ -28,14 +29,8 @@ class MediaViewPage extends Component {
     webgazer.applyKalmanFilter(false);
 
     /* In case we are loading in directly to media without going thru calibration */
-		if(!this.state.webgazerInitialized) {
-      webgazer.begin();
-      this.setState({webgazerInitialized: true});
-    }
-
-    webgazer.removeMouseEventListeners();
     webgazer.clearGazeListener();
-    webgazer.resume();
+    // webgazer.resume();
 	}
 
   componentDidMount() {
