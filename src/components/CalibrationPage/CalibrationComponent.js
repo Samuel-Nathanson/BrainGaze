@@ -380,7 +380,7 @@ class CalibrationComponent extends Component {
 					<h2
 						className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`}
 						onClick={this.toggleCalibrationStats}>
-						Calibration Statistics
+						Click here for Calibration Statistics
 					</h2>
 					<br />
 					<br />
