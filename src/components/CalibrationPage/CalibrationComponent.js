@@ -317,7 +317,7 @@ class CalibrationComponent extends Component {
 
 		this.setState({
 			currentPointIndex: 0,
-			calibrationPoints: this.getInitializationPoints(),
+			calibrationPoints: this.state.testPoints,
 			showTestInstructions: false
 		});
 		this.showPointsInterval = setInterval(() => {
