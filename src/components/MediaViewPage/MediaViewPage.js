@@ -19,7 +19,7 @@ class MediaViewPage extends Component {
   }
 
   setupWebgazer() {
-    
+
     // TODO : Need to double check that webgazer is still calibrated from the calibration step
     /* Don't show subject video, could be distracting */
     webgazer.showVideo(false);
@@ -31,7 +31,7 @@ class MediaViewPage extends Component {
     /* In case we are loading in directly to media without going thru calibration */
     webgazer.clearGazeListener();
     // webgazer.resume();
-	}
+  }
 
   componentDidMount() {
     // Load markdown content and initialize WebGazer
@@ -49,7 +49,7 @@ class MediaViewPage extends Component {
     webgazer.resume();
 
     // Start collecting gaze data at 100ms intervals when the video is playing
-    this.gazeCollectionInterval = setInterval( async () => {
+    this.gazeCollectionInterval = setInterval(async () => {
       if (this.state.isVideoPlaying) {
         const recordedGazeLocations = [...this.state.recordedGazeLocations];
         const recordedVideoTimestamps = [...this.state.recordedVideoTimestamps]
@@ -84,12 +84,10 @@ class MediaViewPage extends Component {
     clearInterval(this.gazeCollectionInterval);
   };
 
-  handleVideoEnd = () => { 
+  handleVideoEnd = () => {
 
-    this.setState({isVideoEnded: true, isVideoPlaying: false})
+    this.setState({ isVideoEnded: true, isVideoPlaying: false })
     webgazer.pause();
-
-
 
   };
 
@@ -120,27 +118,31 @@ class MediaViewPage extends Component {
     );
   }
 
-  render() {
+  render_video_container() {
     return (
       <div>
         <div dangerouslySetInnerHTML={{ __html: this.state.markdown }} />
         <div className='video-container'>
           <video
-          ref={(el) => (this.videoElement = el)} // Store a reference to the video element
-          controls
-          className='react-player'
-          onPlay={this.handleVideoPlay}
-          onPause={this.handleVideoPause}
-          onEnded={this.handleVideoEnd}
-        >
-          <source src={this.state.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+            ref={(el) => (this.videoElement = el)} // Store a reference to the video element
+            controls
+            className='react-player'
+            onPlay={this.handleVideoPlay}
+            onPause={this.handleVideoPause}
+            onEnded={this.handleVideoEnd}
+          >
+            <source src={this.state.videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
         </div>
-        
+
         {this.state.isVideoEnded && this.renderResultsTable()} {/* Conditional rendering */}
       </div>
     );
+  }
+
+  render() {
+    return this.render_video_container();
   }
 }
 

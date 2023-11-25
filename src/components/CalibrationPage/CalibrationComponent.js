@@ -7,6 +7,8 @@ import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
 
+import config from '../../config';
+
 class CalibrationComponent extends Component {
 	constructor(props) {
 		super(props);
@@ -52,7 +54,7 @@ class CalibrationComponent extends Component {
 			this.state.webgazerInitialized = true;
 		}
 
-		const NUM_TEST_POINTS = 10;
+		const NUM_TEST_POINTS = config["NUM_TEST_POINTS"];
 		this.state.calibrationPoints = this.getInitializationPoints();
 		this.state.testPoints = this.getTestPoints(NUM_TEST_POINTS);
 	}
@@ -94,8 +96,8 @@ class CalibrationComponent extends Component {
 
 	componentDidMount() {
 		/* Runs when the page is successfully loaded */
-		const DISPLAY_TIME_CALIBRATION_POINT = 4000;
-		const DISPLAY_TIME_CALIBRATION_INSTRUCTIONS = 10000;
+		const DISPLAY_TIME_CALIBRATION_POINT = config["DISPLAY_TIME_CALIBRATION_POINT"];
+		const DISPLAY_TIME_CALIBRATION_INSTRUCTIONS = config["DISPLAY_TIME_CALIBRATION_INSTRUCTIONS"];
 
 		/* Fetches the markdown instructions */
 		fetch('/markdown/calibration-instructions.md') // Update with your markdown file path
@@ -295,7 +297,7 @@ class CalibrationComponent extends Component {
 	// Function to run the calibrated test with intervals
 	runCalibratedTest = () => {
 
-		const DISPLAY_TIME_CALIBRATION_TEST_POINT = 10000;
+		const DISPLAY_TIME_CALIBRATION_TEST_POINT = config["DISPLAY_TIME_CALIBRATION_TEST_POINT"];
 		/* Runs a performance test on the already-calibrated gaze tracker */
 		console.log("Running test with calibrated eye tracker...")
 
@@ -328,7 +330,7 @@ class CalibrationComponent extends Component {
 	};
 
 	componentDidUpdate(prevProps, prevState) {
-		const DISPLAY_TIME_PERFORMANCE_TEST_INSTRUCTIONS = 10000;
+		const DISPLAY_TIME_PERFORMANCE_TEST_INSTRUCTIONS = config["DISPLAY_TIME_PERFORMANCE_TEST_INSTRUCTIONS"];
 		// Show the test instructions for the performance test
 		if (this.state.calibrationComplete && !prevState.calibrationComplete) {
 			this.setState({ showTestInstructions: true });
@@ -380,7 +382,7 @@ class CalibrationComponent extends Component {
 					<h2
 						className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`}
 						onClick={this.toggleCalibrationStats}>
-						Click here for Calibration Statistics
+						<b>Click here</b> for Calibration Statistics
 					</h2>
 					<br />
 					<br />
