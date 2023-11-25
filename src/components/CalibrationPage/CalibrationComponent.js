@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
-import config from '../../debugConfig';
+import config from '../../config';
 
 class CalibrationComponent extends Component {
 	constructor(props) {
