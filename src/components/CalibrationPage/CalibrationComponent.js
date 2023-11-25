@@ -6,13 +6,15 @@ import { Link } from 'react-router-dom';
 import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
-
-import config from '../../config';
+import config from '../../debugConfig';
 
 class CalibrationComponent extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
+
+		const savedStateJSON = sessionStorage.getItem('calibrationComponentState');
+
+		const initialState = {
 			/* State signals */
 			calibrationStarted: false, // Needed to show instructions first before starting calibration
 			currentPointIndex: 0, // Needed to iterate through calibration / test points
@@ -42,6 +44,16 @@ class CalibrationComponent extends Component {
 			calibratedTestInstructionsMd: '',
 		};
 
+		if (savedStateJSON) {
+			const savedState = JSON.parse(savedStateJSON);
+			if (savedState.testingComplete) {
+				this.state = savedState;
+				return;
+			}
+		}
+
+		this.state = initialState;
+
 		if (!this.state.webgazerInitialized) {
 			/* Don't show subject video, could be distracting */
 			webgazer.showVideo(false);
@@ -57,6 +69,7 @@ class CalibrationComponent extends Component {
 		const NUM_TEST_POINTS = config["NUM_TEST_POINTS"];
 		this.state.calibrationPoints = this.getInitializationPoints();
 		this.state.testPoints = this.getTestPoints(NUM_TEST_POINTS);
+
 	}
 
 	componentWillUnmount() {
@@ -85,8 +98,8 @@ class CalibrationComponent extends Component {
 		const points = [];
 		for (let i = 0; i < n; i++) {
 			// Generate random x and y percentages
-			const x = `${Math.floor(Math.random() * 100)}%`;
-			const y = `${Math.floor(Math.random() * 100)}%`;
+			const x = `${Math.floor(Math.random() * 80 + 10)}%`;
+			const y = `${Math.floor(Math.random() * 80 + 10)}%`;
 
 			// Add the point to the array
 			points.push({ x, y });
@@ -292,8 +305,6 @@ class CalibrationComponent extends Component {
 
 	};
 
-
-
 	// Function to run the calibrated test with intervals
 	runCalibratedTest = () => {
 
@@ -325,6 +336,7 @@ class CalibrationComponent extends Component {
 				this.compute95ConfidenceEllipse();
 				webgazer.showPredictionPoints(false);
 				webgazer.pause()
+				sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state))
 			}
 		}, DISPLAY_TIME_CALIBRATION_TEST_POINT); // Adjust the delay time as needed
 	};
@@ -379,6 +391,7 @@ class CalibrationComponent extends Component {
 						}
 					}}>Click here to proceed</Link>
 					<br /><br />
+					<button onClick={this.props.remountFunction}>Click here to restart calibration</button><br />
 					<h2
 						className={`dropdown-toggle ${this.state.showCalibrationStats ? 'open' : ''}`}
 						onClick={this.toggleCalibrationStats}>
