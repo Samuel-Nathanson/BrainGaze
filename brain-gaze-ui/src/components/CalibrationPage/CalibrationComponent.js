@@ -32,6 +32,8 @@ class CalibrationComponent extends Component {
 			testPoints: [], // for testing
 			recordedGazeLocations: [], // To store recorded gaze locations
 			recordedPointLocations: [], // To store recorded point locations
+			windowInnerHeight: null,
+			windowInnerWidth: null,
 			/* Statistics */
 			maxRSE: null,
 			minRSE: null,
@@ -345,8 +347,12 @@ class CalibrationComponent extends Component {
 				this.compute95ConfidenceEllipse();
 				webgazer.showPredictionPoints(false);
 				webgazer.pause()
-				this.setState({ testingComplete: true, testingCompleteTime: new Date().getTime() }, () => {
-					sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state))
+				this.setState({ testingComplete: true, 
+												testingCompleteTime: new Date().getTime(), 
+												windowInnerHeight: window.innerHeight, 
+												windowInnerWidth: window.innerWidth }, () => {
+					sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state));
+					sendCalibrationData({'state': this.state});  
 				});
 				
 			}

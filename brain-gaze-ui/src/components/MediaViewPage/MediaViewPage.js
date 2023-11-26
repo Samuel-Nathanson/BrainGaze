@@ -21,6 +21,8 @@ class MediaViewPage extends Component {
       videoEndTime: -1,
       gazeCollectionResolution: 100,
       webgazerInitialized: props.webgazerInitialized,
+      windowInnerHeight: null,
+			windowInnerWidth: null,
       recordedGazeLocations: [],
       recordedVideoTimestamps: []
     };
@@ -109,7 +111,11 @@ class MediaViewPage extends Component {
 
   handleVideoEnd = () => {
 
-    this.setState({ isVideoEnded: true, isVideoPlaying: false, videoEndTime: new Date().getTime()}, () => {
+    this.setState({ isVideoEnded: true, 
+                    isVideoPlaying: false, 
+                    videoEndTime: new Date().getTime(), 
+                    windowInnerHeight: window.innerHeight, 
+                    windowInnerWidth: window.innerWidth }, () => {
       sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
       sendMediaData({'state': this.state})
     });
