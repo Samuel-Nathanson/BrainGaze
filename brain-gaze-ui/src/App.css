@@ -1,0 +1,240 @@
+.App {
+  text-align: center;
+}
+
+:root {
+  --header-height: 5vh; /* Define a custom property for .App-header height */
+  --instructions-height: 10vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#calibration-instructions {
+  height: var(--instructions-height);
+  margin: 0px
+}
+
+#calibration-container {
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Optional background color */
+    border: 1px solid black;
+    margin: 0 auto;
+    height: calc(97vh - var(--header-height));
+    width: 95vw;
+    margin-top: 15px;
+    position: relative;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: background 300ms ease-in 200ms;
+
+}
+
+.App-header {
+  background-color: #282c34;
+  height: var(--header-height);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(16px);
+  color: white;
+
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* src/App.css */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.media-player-container {
+  width: 60%; /* Adjust as needed */
+  height: auto; /* Adjust as needed */
+  margin-top: 60px; /* Adjust to position in the middle */
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(.1, .1);
+    opacity: .9;
+  }
+  to {
+    transform: scale(3.5, 3.5);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleInCustom {
+  to {
+    transform: scale(.01, .01);
+    opacity: .0.1;
+  }
+  from {
+    transform: scale(3.5, 3.5);
+    opacity: 0.2;
+  }
+}
+
+.calibrationPointCircle {
+  background-color: yellow;
+  position: absolute;
+  opacity: 100;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  border-radius: 60%;
+  /* animation: scaleIn 2s infinite linear; */
+  transition: background-color 1.5s ease; /* Add this line */
+  caret-color: transparent;
+}
+
+#webgazerGazeDot {
+  width: 15px !important;
+  height: 15px !important;
+  opacity: 0.2 !important;
+  color: gold;
+}
+
+.table-centered {
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid black; /* Adjust the border as needed */
+  width: 80%; /* Adjust the width as needed */
+  border-collapse: collapse;
+}
+
+/* Style for table cells */
+.table-centered td {
+  border: 1px solid black;
+  padding: 4px 8px; /* Adjust padding as needed */
+}
+
+.testPoint {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transition: all 0.3s;
+  transform-origin: 66% 66%;
+}
+
+.dropdown-toggle.open::after {
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.blue-font {
+  color: blue;
+}
+
+#webcam-test {
+  border: 15px solid  black;
+  height: 60vh;
+}
+
+.gazeTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.gazeTableHead {
+  background-color: #f2f2f2;
+}
+
+.gazeTableTh, .gazeTableTd {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.gazeTableTr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.gazeTableTr:hover {
+  background-color: #e0e0e0;
+}
+
+/* Container div for the video player */
+.video-container {
+  position: relative;
+  overflow: hidden;
+  /* padding-top: 56.25%; 16:9 aspect ratio (9 / 16 * 100%) - SEEMS TO BE TOO LARGE */
+  padding-top: 40%;  
+  max-height: 60vh;
+}
+
+/* Style the video element itself */
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* max-height: 60vh; */
+}
+
+#webgazerVideoContainer {
+  z-index: -1000;
+}
+
+
+.back-button {
+  position: absolute;
+  top: 10px;   /* Adjust these values as needed */
+  left: 10px;
+  z-index: 100;
+  /* Add more styling here if needed */
+}
