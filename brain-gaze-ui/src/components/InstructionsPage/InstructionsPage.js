@@ -2,11 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import { Link } from 'react-router-dom';
+import { getSessionId } from '../../util/UserSession';
 
 const InstructionsPage = () => {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
+    const fetchedSessionId = getSessionId();
+    console.log(fetchedSessionId);
+
     fetch('/markdown/instructions.md')
       .then(response => response.text())
       .then(text => setMarkdown(marked.parse(text)))

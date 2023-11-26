@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
-import config from '../../config';
+import config from '../../debugConfig';
+import {sendCalibrationData, sendMediaData, sendWebcamSnapshot } from '../../api/requests'
+import { getSessionId } from '../../util/UserSession';
 
 class CalibrationComponent extends Component {
 	constructor(props) {
@@ -16,12 +18,14 @@ class CalibrationComponent extends Component {
 
 		const initialState = {
 			/* State signals */
+			sessionId: getSessionId(), // Session ID for the user browser.
 			calibrationStarted: false, // Needed to show instructions first before starting calibration
 			currentPointIndex: 0, // Needed to iterate through calibration / test points
 			calibrationComplete: false, // Needed to signal that calibration (training) is complete
 			webgazerInitialized: false, // Avoid initializing webgazer twice
 			testingComplete: false, // Signals that test is complete and statistics should be shown
 			testing: false, // Developer flag, skips some of the initial instructions (experimental)
+			testingCompleteTime: -1, // Used to discern newer calibrations after user restarts 
 			showTestInstructions: false, // Signals display of instructions for testing calibration
 			showCalibrationStats: false, // Signals display of calibration stats
 			calibrationPoints: [], // Points to iterate over
@@ -75,6 +79,11 @@ class CalibrationComponent extends Component {
 	componentWillUnmount() {
 		/* This ends webgazer data collection. It's sometimes buggy, and we also don't want to turn it off yet */
 		// webgazer.end();
+
+		if(this.state.testingComplete) {
+			sendCalibrationData({'state': this.state})
+		}
+
 	}
 
 	getInitializationPoints() {
@@ -328,7 +337,7 @@ class CalibrationComponent extends Component {
 
 			if (this.state.currentPointIndex === this.state.calibrationPoints.length - 1) {
 				clearInterval(this.showPointsInterval);
-				this.setState({ testingComplete: true })
+				
 
 				console.log("Test complete! Computing RMSE and 95% Confidence Ellipse")
 				// All intervals are complete, compute MSE
@@ -336,7 +345,10 @@ class CalibrationComponent extends Component {
 				this.compute95ConfidenceEllipse();
 				webgazer.showPredictionPoints(false);
 				webgazer.pause()
-				sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state))
+				this.setState({ testingComplete: true, testingCompleteTime: new Date().getTime() }, () => {
+					sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state))
+				});
+				
 			}
 		}, DISPLAY_TIME_CALIBRATION_TEST_POINT); // Adjust the delay time as needed
 	};

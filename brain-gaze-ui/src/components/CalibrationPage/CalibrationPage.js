@@ -1,5 +1,5 @@
 // src/components/CalibrationPage.js
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import CalibrationComponent from './CalibrationComponent';
 
 const CalibrationPage = () => {

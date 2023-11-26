@@ -1,12 +1,16 @@
 // src/components/InformedConsent.js
 import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
+import { getSessionId } from '../util/UserSession';
 
 const InformedConsent = ({ onConsent }) => {
   const [agreed, setAgreed] = useState(false);
   const [consentText, setConsentText] = useState('');
 
   useEffect(() => {
+    const fetchedSessionId = getSessionId();
+    console.log(fetchedSessionId);
+
     fetch('/markdown/consent-form.md') // Update the path to your markdown file
       .then(response => response.text())
       .then(markdown => setConsentText(marked.parse(markdown)))

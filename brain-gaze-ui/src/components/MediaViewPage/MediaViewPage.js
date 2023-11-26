@@ -1,21 +1,40 @@
 import React, { Component } from 'react';
 import { marked } from 'marked';
 import webgazer from 'webgazer'; // Import WebGazer
+import { getSessionId } from '../../util/UserSession';
+import { sendMediaData } from '../../api/requests';
 
 class MediaViewPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    
+    this.gazeCollectionInterval = null; // Initialize gaze data collection interval
+
+    const savedStateJSON = sessionStorage.getItem('mediaViewComponentState');
+
+    const initialState = {
+      sessionId: getSessionId(),
       markdown: '',
       videoUrl: '/media/videos/eagle-stock-video.mp4',
       isVideoPlaying: false, // Track video playing state
       isVideoEnded: false,
+      videoEndTime: -1,
       gazeCollectionResolution: 100,
       webgazerInitialized: props.webgazerInitialized,
       recordedGazeLocations: [],
       recordedVideoTimestamps: []
     };
-    this.gazeCollectionInterval = null; // Initialize gaze data collection interval
+
+    
+		if (savedStateJSON) {
+			const savedState = JSON.parse(savedStateJSON);
+			if (savedState.isVideoEnded) {
+				this.state = savedState;
+				return;
+			}
+		}
+
+    this.state = initialState;
   }
 
   setupWebgazer() {
@@ -31,6 +50,10 @@ class MediaViewPage extends Component {
     /* In case we are loading in directly to media without going thru calibration */
     webgazer.clearGazeListener();
     // webgazer.resume();
+  }
+
+  componentWillUnmount() {
+    sendMediaData({'state': this.state})
   }
 
   componentDidMount() {
@@ -86,7 +109,10 @@ class MediaViewPage extends Component {
 
   handleVideoEnd = () => {
 
-    this.setState({ isVideoEnded: true, isVideoPlaying: false })
+    this.setState({ isVideoEnded: true, isVideoPlaying: false, videoEndTime: new Date().getTime()}, () => {
+      sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
+      sendMediaData({'state': this.state})
+    });
     webgazer.pause();
 
   };
