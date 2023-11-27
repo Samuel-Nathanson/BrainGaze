@@ -1,4 +1,4 @@
-import config from "../debugConfig";
+import config from "../config";
 
 const sendCalibrationData = (data) => {
   console.log(config)
@@ -52,6 +52,5 @@ const sendWebcamSnapshot = (data) => {
       console.error('Error:', error);
     });
 };
-
 
 export { sendCalibrationData, sendMediaData, sendWebcamSnapshot}

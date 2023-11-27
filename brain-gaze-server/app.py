@@ -4,22 +4,20 @@ import json
 import base64
 import io
 from PIL import Image  # Pillow library for image processing
+from db import init_db, save_json_data
 import traceback
 
 app = Flask(__name__)
 app.debug = True;
 CORS(app)  # Initialize CORS extension
+init_db()
 
 @app.route('/api/save_calibration_data', methods=['POST'])
 def save_calibration_data():
     try:
-        data = request.get_json()  # Get data sent from the React app
-        # Process and store the calibration data in your database
-        # Return a response if needed
-        print("POST request: save_calibration_data")
-        print(json.dumps(data, indent=4))  # Pretty print the JSON data
-        # Process and store the data as needed
-
+        data = request.get_json()["state"]  # Get data sent from the React app
+        session_id = data['sessionId']  # Extract session ID from the JSON
+        save_json_data(session_id, "calibration", data)
         return jsonify({'message': 'Calibration data received and saved'})
     except Exception as e:
         print('Exception occurred:', str(e))
@@ -30,13 +28,10 @@ def save_calibration_data():
 @app.route('/api/save_media_data', methods=['POST'])
 def save_media_data():
     try:
-        data = request.get_json()  # Get data sent from the React app
-        # Process and store the media data in your database
-        # Return a response if needed
-        print("POST request: save_media_data")
-        print(json.dumps(data, indent=4))  # Pretty print the JSON data
-        # Process and store the data as needed
-
+        data = request.get_json()["state"]
+        print(data)
+        session_id = data['sessionId']  # Extract session ID from the JSON
+        save_json_data(session_id, 'media', data)
         return jsonify({'message': 'Media data received and saved'})
     except Exception as e:
         print('Exception occurred:', str(e))
