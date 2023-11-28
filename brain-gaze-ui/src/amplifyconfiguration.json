@@ -1,0 +1,17 @@
+{
+  "aws_project_region": "us-east-2",
+  "aws_dynamodb_all_tables_region": "us-east-2",
+  "aws_dynamodb_table_schemas": [
+    {
+      "tableName": "data-staging",
+      "region": "us-east-2"
+    }
+  ],
+  "aws_cloud_logic_custom": [
+    {
+      "name": "braingazeapi",
+      "endpoint": "https://6n8livmxr5.execute-api.us-east-2.amazonaws.com/staging",
+      "region": "us-east-2"
+    }
+  ]
+}
