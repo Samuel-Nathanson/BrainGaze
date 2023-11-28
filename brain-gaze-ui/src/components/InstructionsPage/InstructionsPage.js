@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import { Link } from 'react-router-dom';
 import { getSessionId } from '../../util/UserSession';
-import { API } from 'aws-amplify';
+import { get } from 'aws-amplify/api';
+
 
 const InstructionsPage = () => {
   const [markdown, setMarkdown] = useState('');
@@ -12,20 +13,18 @@ const InstructionsPage = () => {
 
     // declare the data fetching function
 
-    function getData() {
-      const apiName = 'braingazeapi';
-      const path = '/calibrationSession';
-      const myInit = {
-        headers: {} // OPTIONAL
-      };
-
-      return API.get(apiName, path, myInit);
+    async function getData() {
+      try {
+        const restOperation = get({
+          apiName: 'braingazeapi',
+          path: '/calibrationSession'
+        });
+        const response = await restOperation.response;
+        console.log('GET call succeeded: ', response);
+      } catch (error) {
+        console.log('GET call failed: ', error);
+      }
     }
-
-    (async function () {
-      const response = await getData();
-    })();
-
 
     // call the function
     getData()

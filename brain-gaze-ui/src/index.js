@@ -5,9 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import amplifyconfig from './amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+Amplify.configure(amplifyconfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
