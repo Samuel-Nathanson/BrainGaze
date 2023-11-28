@@ -3,11 +3,23 @@ import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import { Link } from 'react-router-dom';
 import { getSessionId } from '../../util/UserSession';
+import { API } from 'aws-amplify'
 
 const InstructionsPage = () => {
   const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
+
+    // declare the data fetching function
+
+    const getData = async () => {
+      const data = await API.get('braingazeapi', '/calibrationSession')
+      console.log(data)
+    }
+
+    // call the function
+    getData()
+
     const fetchedSessionId = getSessionId();
     console.log(fetchedSessionId);
 
