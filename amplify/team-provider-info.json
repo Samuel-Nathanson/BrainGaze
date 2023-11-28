@@ -1,0 +1,26 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplifyd0d9fcbcd4264-staging-10921-authRole",
+      "UnauthRoleArn": "arn:aws:iam::162079027715:role/amplify-amplifyd0d9fcbcd4264-staging-10921-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::162079027715:role/amplify-amplifyd0d9fcbcd4264-staging-10921-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-amplifyd0d9fcbcd4264-staging-10921-deployment",
+      "UnauthRoleName": "amplify-amplifyd0d9fcbcd4264-staging-10921-unauthRole",
+      "StackName": "amplify-amplifyd0d9fcbcd4264-staging-10921",
+      "StackId": "arn:aws:cloudformation:us-east-2:162079027715:stack/amplify-amplifyd0d9fcbcd4264-staging-10921/c3ae3000-8d8a-11ee-b6e3-02b04b716785",
+      "AmplifyAppId": "donwa2rooilco"
+    },
+    "categories": {
+      "function": {
+        "storeCalibrationDataLambda": {
+          "deploymentBucketName": "amplify-amplifyd0d9fcbcd4264-staging-10921-deployment",
+          "s3Key": "amplify-builds/storeCalibrationDataLambda-6b613655313779562b74-build.zip"
+        }
+      },
+      "storage": {
+        "braingazestorage": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/calibrationSession": {
+      "name": "/calibrationSession",
+      "lambdaFunction": "storeCalibrationDataLambda",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

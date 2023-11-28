@@ -1,0 +1,10 @@
+{
+  "resourceName": "braingazestorage",
+  "tableName": "data",
+  "partitionKey": {
+    "fieldName": "sessionId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}
