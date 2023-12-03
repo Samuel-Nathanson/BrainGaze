@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "processCalibrationSession"
+          "resourceName": "storeCalibrationData"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -42,29 +42,30 @@
     }
   },
   "function": {
-    "processCalibrationSession": {
+    "storeCalibrationData": {
       "build": true,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "braingazeData"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
-  "parameters": {
-    "AMPLIFY_function_processCalibrationSession_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "processCalibrationSession"
-        }
-      ]
-    },
-    "AMPLIFY_function_processCalibrationSession_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "processCalibrationSession"
-        }
-      ]
+  "storage": {
+    "braingazeData": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

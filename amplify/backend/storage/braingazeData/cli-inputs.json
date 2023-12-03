@@ -1,0 +1,12 @@
+{
+  "resourceName": "braingazeData",
+  "tableName": "braingazeDataTable",
+  "partitionKey": {
+    "fieldName": "sessionId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": [
+    "braingazeDataTrigger83485f17"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.8.2\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "Lambda Function resource stack creation using Amplify CLI",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -15,6 +15,14 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "storagebraingazeDataName": {
+      "Type": "String",
+      "Default": "storagebraingazeDataName"
+    },
+    "storagebraingazeDataArn": {
+      "Type": "String",
+      "Default": "storagebraingazeDataArn"
     }
   },
   "Conditions": {
@@ -47,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "processCalibrationSession",
+            "storeCalibrationData",
             {
               "Fn::Join": [
                 "",
                 [
-                  "processCalibrationSession",
+                  "storeCalibrationData",
                   "-",
                   {
                     "Ref": "env"
@@ -78,7 +86,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python3.8",
+        "Runtime": "nodejs18.x",
         "Layers": [],
         "Timeout": 25
       }
@@ -89,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "braingazeLambdaRole1637bffd",
+            "braingazeLambdaRolee7f33399",
             {
               "Fn::Join": [
                 "",
                 [
-                  "braingazeLambdaRole1637bffd",
+                  "braingazeLambdaRolee7f33399",
                   "-",
                   {
                     "Ref": "env"
@@ -160,6 +168,34 @@
                   }
                 ]
               }
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storagebraingazeDataArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storagebraingazeDataArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

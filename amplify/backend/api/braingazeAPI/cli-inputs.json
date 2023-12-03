@@ -1,16 +1,9 @@
 {
   "version": 1,
   "paths": {
-    "/caliibrationSession": {
-      "name": "/caliibrationSession",
-      "lambdaFunction": "processCalibrationSession",
-      "permissions": {
-        "setting": "open"
-      }
-    },
-    "/calibrationSession": {
-      "name": "/calibrationSession",
-      "lambdaFunction": "processCalibrationSession",
+    "/calibrationData": {
+      "name": "/calibrationData",
+      "lambdaFunction": "storeCalibrationData",
       "permissions": {
         "setting": "open"
       }

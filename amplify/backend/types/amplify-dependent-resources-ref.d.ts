@@ -18,12 +18,22 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "processCalibrationSession": {
+    "storeCalibrationData": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
+    }
+  },
+  "storage": {
+    "braingazeData": {
+      "Arn": "string",
+      "Name": "string",
+      "PartitionKeyName": "string",
+      "PartitionKeyType": "string",
+      "Region": "string",
+      "StreamArn": "string"
     }
   }
 }

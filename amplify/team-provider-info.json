@@ -14,10 +14,7 @@
     },
     "categories": {
       "function": {
-        "processCalibrationSession": {
-          "deploymentBucketName": "amplify-braingaze-master-75332-deployment",
-          "s3Key": "amplify-builds/processCalibrationSession-7055536c575239703050-build.zip"
-        }
+        "storeCalibrationData": {}
       },
       "auth": {
         "braingaze": {}
