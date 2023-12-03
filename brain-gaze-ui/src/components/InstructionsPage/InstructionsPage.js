@@ -18,7 +18,7 @@ const InstructionsPage = () => {
         const todo = { name: 'My first todo', message: 'Hello world!' };
         const restOperation = put({
           apiName: 'braingazeAPI',
-          path: 'calibrationData',
+          path: '/calibrationData',
           options: {
             body: todo
           }
