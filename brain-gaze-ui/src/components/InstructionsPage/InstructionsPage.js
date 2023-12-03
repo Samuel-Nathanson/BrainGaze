@@ -15,12 +15,16 @@ const InstructionsPage = () => {
 
     async function putData() {
       try {
-        const todo = { name: 'My first todo', message: 'Hello world!' };
+        const calSess = {
+          sessionId: 'TestSessionId',
+          sessionData: 'TestSessionData',
+          dataType: 'TestDataType'
+        };
         const restOperation = put({
           apiName: 'braingazeAPI',
           path: '/calibrationData',
           options: {
-            body: todo
+            body: calSess
           }
         });
         const response = await restOperation.response;
