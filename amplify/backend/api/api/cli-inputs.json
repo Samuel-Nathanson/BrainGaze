@@ -3,7 +3,7 @@
   "paths": {
     "/calibrationSession": {
       "name": "/calibrationSession",
-      "lambdaFunction": "storeCalibrationDataLambda",
+      "lambdaFunction": "processCalibrationSession",
       "permissions": {
         "setting": "open"
       }

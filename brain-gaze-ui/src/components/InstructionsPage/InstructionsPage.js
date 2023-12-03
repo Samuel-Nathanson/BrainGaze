@@ -16,7 +16,7 @@ const InstructionsPage = () => {
     async function getData() {
       try {
         const restOperation = get({
-          apiName: 'braingazeapi',
+          apiName: 'api',
           path: '/calibrationSession'
         });
         const response = await restOperation.response;

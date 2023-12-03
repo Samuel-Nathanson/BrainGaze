@@ -1,6 +1,6 @@
 {
   "api": {
-    "braingazeapi": {
+    "api": {
       "dependsOn": [
         {
           "attributes": [
@@ -8,53 +8,63 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "storeCalibrationDataLambda"
+          "resourceName": "processCalibrationSession"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "API Gateway"
     }
   },
+  "auth": {
+    "braingaze": {
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "serviceType": "managed"
+    }
+  },
   "function": {
-    "storeCalibrationDataLambda": {
+    "processCalibrationSession": {
       "build": true,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "StreamArn"
-          ],
-          "category": "storage",
-          "resourceName": "braingazestorage"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_storeCalibrationDataLambda_deploymentBucketName": {
+    "AMPLIFY_function_processCalibrationSession_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "storeCalibrationDataLambda"
+          "resourceName": "processCalibrationSession"
         }
       ]
     },
-    "AMPLIFY_function_storeCalibrationDataLambda_s3Key": {
+    "AMPLIFY_function_processCalibrationSession_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "storeCalibrationDataLambda"
+          "resourceName": "processCalibrationSession"
         }
       ]
-    }
-  },
-  "storage": {
-    "braingazestorage": {
-      "providerPlugin": "awscloudformation",
-      "service": "DynamoDB"
     }
   }
 }

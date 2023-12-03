@@ -15,18 +15,6 @@
     },
     "s3Key": {
       "Type": "String"
-    },
-    "storagebraingazestorageName": {
-      "Type": "String",
-      "Default": "storagebraingazestorageName"
-    },
-    "storagebraingazestorageArn": {
-      "Type": "String",
-      "Default": "storagebraingazestorageArn"
-    },
-    "storagebraingazestorageStreamArn": {
-      "Type": "String",
-      "Default": "storagebraingazestorageStreamArn"
     }
   },
   "Conditions": {
@@ -59,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "storeCalibrationDataLambda",
+            "processCalibrationSession",
             {
               "Fn::Join": [
                 "",
                 [
-                  "storeCalibrationDataLambda",
+                  "processCalibrationSession",
                   "-",
                   {
                     "Ref": "env"
@@ -81,15 +69,6 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
-            },
-            "STORAGE_BRAINGAZESTORAGE_NAME": {
-              "Ref": "storagebraingazestorageName"
-            },
-            "STORAGE_BRAINGAZESTORAGE_ARN": {
-              "Ref": "storagebraingazestorageArn"
-            },
-            "STORAGE_BRAINGAZESTORAGE_STREAMARN": {
-              "Ref": "storagebraingazestorageStreamArn"
             }
           }
         },
@@ -110,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "braingazeLambdaRole48789ded",
+            "braingazeLambdaRole1637bffd",
             {
               "Fn::Join": [
                 "",
                 [
-                  "braingazeLambdaRole48789ded",
+                  "braingazeLambdaRole1637bffd",
                   "-",
                   {
                     "Ref": "env"
@@ -181,62 +160,6 @@
                   }
                 ]
               }
-            }
-          ]
-        }
-      }
-    },
-    "AmplifyResourcesPolicy": {
-      "DependsOn": [
-        "LambdaExecutionRole"
-      ],
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyName": "amplify-lambda-execution-policy",
-        "Roles": [
-          {
-            "Ref": "LambdaExecutionRole"
-          }
-        ],
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PartiQLInsert",
-                "dynamodb:Get*",
-                "dynamodb:BatchGetItem",
-                "dynamodb:List*",
-                "dynamodb:Describe*",
-                "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:PartiQLSelect",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:PartiQLUpdate",
-                "dynamodb:Delete*",
-                "dynamodb:PartiQLDelete"
-              ],
-              "Resource": [
-                {
-                  "Ref": "storagebraingazestorageArn"
-                },
-                {
-                  "Fn::Join": [
-                    "/",
-                    [
-                      {
-                        "Ref": "storagebraingazestorageArn"
-                      },
-                      "index/*"
-                    ]
-                  ]
-                }
-              ]
             }
           ]
         }
