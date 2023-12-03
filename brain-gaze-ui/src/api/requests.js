@@ -1,56 +1,95 @@
 import config from "../config";
+import { put } from 'aws-amplify/api'
 
-const sendCalibrationData = (data) => {
-  console.log(config)
-  fetch(config['SERVER_URL'] + '/api/save_calibration_data', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // Response from the server
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+const apiName = 'braingazeAPI'
+
+const sendCalibrationData = (sessionId, dataType, sessionData) => {
+
+  try {
+    const msgBody = {
+      sessionId: sessionId,
+      sessionData: sessionData,
+      dataType: dataType
+    };
+
+    const restOperation = put({
+      apiName: apiName,
+      path: '/calibrationData',
+      options: {
+        body: msgBody
+      }
     });
+
+    restOperation.response.then(
+      response => {
+        console.log('PUT call succeeded: ', response);
+      },
+      err => {
+        console.log('PUT call failed: ', err);
+      }
+    );
+  } catch (err) {
+    console.log('Error during PUT call setup: ', err);
+  }
+
 };
 
-const sendMediaData = (data) => {
-  console.log(config)
-  fetch(config['SERVER_URL'] + '/api/save_media_data', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // Response from the server
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+const sendMediaViewData = (sessionId, dataType, sessionData) => {
+  try {
+    const msgBody = {
+      sessionId: sessionId,
+      sessionData: sessionData,
+      dataType: dataType
+    };
+
+    const restOperation = put({
+      apiName: apiName,
+      path: '/mediaViewData',
+      options: {
+        body: msgBody
+      }
     });
+
+    restOperation.response.then(
+      response => {
+        console.log('PUT call succeeded: ', response);
+      },
+      err => {
+        console.log('PUT call failed: ', err);
+      }
+    );
+  } catch (err) {
+    console.log('Error during PUT call setup: ', err);
+  }
 };
 
-const sendWebcamSnapshot = (data) => {
-  fetch(config['SERVER_URL'] + '/api/save_webcam_snapshot', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // Response from the server
-    })
-    .catch((error) => {
-      console.error('Error:', error);
+const sendWebcamData = (sessionId, dataType, sessionData) => {
+  try {
+    const msgBody = {
+      sessionId: sessionId,
+      sessionData: sessionData,
+      dataType: dataType
+    };
+
+    const restOperation = put({
+      apiName: apiName,
+      path: '/webcamData',
+      options: {
+        body: msgBody
+      }
     });
+
+    restOperation.response.then(
+      response => {
+        console.log('PUT call succeeded: ', response);
+      },
+      err => {
+        console.log('PUT call failed: ', err);
+      }
+    );
+  } catch (err) {
+    console.log('Error during PUT call setup: ', err);
+  }
 };
 
-export { sendCalibrationData, sendMediaData, sendWebcamSnapshot}
+export { sendCalibrationData, sendMediaViewData, sendWebcamData }

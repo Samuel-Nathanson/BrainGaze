@@ -9,6 +9,14 @@
           ],
           "category": "function",
           "resourceName": "storeCalibrationData"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "data"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -42,6 +50,25 @@
     }
   },
   "function": {
+    "data": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "braingazeData"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "storeCalibrationData": {
       "build": true,
       "dependsOn": [
