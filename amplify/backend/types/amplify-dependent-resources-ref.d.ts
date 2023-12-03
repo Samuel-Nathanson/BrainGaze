@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "api": {
+    "braingazeAPI": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"

@@ -1,6 +1,6 @@
 {
   "api": {
-    "api": {
+    "braingazeAPI": {
       "dependsOn": [
         {
           "attributes": [
