@@ -18,6 +18,20 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "data": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "dynamoDataCall": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "storeCalibrationData": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

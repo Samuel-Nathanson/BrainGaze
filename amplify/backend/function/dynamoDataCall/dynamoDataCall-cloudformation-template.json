@@ -55,12 +55,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "data",
+            "dynamoDataCall",
             {
               "Fn::Join": [
                 "",
                 [
-                  "data",
+                  "dynamoDataCall",
                   "-",
                   {
                     "Ref": "env"
@@ -97,12 +97,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "braingazeLambdaRolea380223e",
+            "braingazeLambdaRole9b38c604",
             {
               "Fn::Join": [
                 "",
                 [
-                  "braingazeLambdaRolea380223e",
+                  "braingazeLambdaRole9b38c604",
                   "-",
                   {
                     "Ref": "env"

@@ -8,15 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "storeCalibrationData"
-        },
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "data"
+          "resourceName": "dynamoDataCall"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -51,6 +43,25 @@
   },
   "function": {
     "data": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "braingazeData"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "dynamoDataCall": {
       "build": true,
       "dependsOn": [
         {

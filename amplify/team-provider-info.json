@@ -18,7 +18,8 @@
           "deploymentBucketName": "amplify-braingaze-master-75332-deployment",
           "s3Key": "amplify-builds/storeCalibrationData-6f6536497046434c5948-build.zip"
         },
-        "data": {}
+        "data": {},
+        "dynamoDataCall": {}
       },
       "auth": {
         "braingaze": {}

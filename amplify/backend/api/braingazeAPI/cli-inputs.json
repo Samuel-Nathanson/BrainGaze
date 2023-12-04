@@ -1,23 +1,9 @@
 {
   "version": 1,
   "paths": {
-    "/calibrationData": {
-      "name": "/calibrationData",
-      "lambdaFunction": "storeCalibrationData",
-      "permissions": {
-        "setting": "open"
-      }
-    },
-    "/webcamData": {
-      "name": "/webcamData",
-      "lambdaFunction": "data",
-      "permissions": {
-        "setting": "open"
-      }
-    },
-    "/mediaViewData": {
-      "name": "/mediaViewData",
-      "lambdaFunction": "data",
+    "/data": {
+      "name": "/data",
+      "lambdaFunction": "dynamoDataCall",
       "permissions": {
         "setting": "open"
       }

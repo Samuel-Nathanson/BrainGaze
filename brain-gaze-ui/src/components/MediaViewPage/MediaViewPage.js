@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { marked } from 'marked';
 import webgazer from 'webgazer'; // Import WebGazer
 import { getSessionId } from '../../util/UserSession';
-import { sendMediaData } from '../../api/requests';
+import { sendMediaViewData } from '../../api/requests';
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class MediaViewPage extends Component {
   }
 
   componentWillUnmount() {
-    sendMediaData({
+    sendMediaViewData({
       'data': this.state,
       'dataType': 'media',
       'sessionId': this.state.sessionId
@@ -123,7 +123,7 @@ class MediaViewPage extends Component {
       windowInnerWidth: window.innerWidth
     }, () => {
       sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
-      sendMediaData({
+      sendMediaViewData({
         'data': this.state,
         'dataType': 'calibration',
         'sessionId': this.state.sessionId
