@@ -101,6 +101,38 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_data_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "data"
+        }
+      ]
+    },
+    "AMPLIFY_function_data_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "data"
+        }
+      ]
+    },
+    "AMPLIFY_function_dynamoDataCall_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamoDataCall"
+        }
+      ]
+    },
+    "AMPLIFY_function_dynamoDataCall_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dynamoDataCall"
+        }
+      ]
+    },
     "AMPLIFY_function_storeCalibrationData_deploymentBucketName": {
       "usedBy": [
         {

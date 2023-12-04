@@ -14,7 +14,7 @@ const sendCalibrationData = (sessionId, dataType, sessionData) => {
 
     const restOperation = put({
       apiName: apiName,
-      path: '/calibrationData',
+      path: '/data',
       options: {
         body: msgBody
       }
@@ -44,7 +44,7 @@ const sendMediaViewData = (sessionId, dataType, sessionData) => {
 
     const restOperation = put({
       apiName: apiName,
-      path: '/mediaViewData',
+      path: '/data',
       options: {
         body: msgBody
       }
@@ -73,7 +73,7 @@ const sendWebcamData = (sessionId, dataType, sessionData) => {
 
     const restOperation = put({
       apiName: apiName,
-      path: '/webcamData',
+      path: '/data',
       options: {
         body: msgBody
       }
