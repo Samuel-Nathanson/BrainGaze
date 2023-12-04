@@ -7,7 +7,7 @@ import { sendMediaData } from '../../api/requests';
 class MediaViewPage extends Component {
   constructor(props) {
     super(props);
-    
+
     this.gazeCollectionInterval = null; // Initialize gaze data collection interval
 
     const savedStateJSON = sessionStorage.getItem('mediaViewComponentState');
@@ -22,19 +22,19 @@ class MediaViewPage extends Component {
       gazeCollectionResolution: 100,
       webgazerInitialized: props.webgazerInitialized,
       windowInnerHeight: null,
-			windowInnerWidth: null,
+      windowInnerWidth: null,
       recordedGazeLocations: [],
       recordedVideoTimestamps: []
     };
 
-    
-		if (savedStateJSON) {
-			const savedState = JSON.parse(savedStateJSON);
-			if (savedState.isVideoEnded) {
-				this.state = savedState;
-				return;
-			}
-		}
+
+    if (savedStateJSON) {
+      const savedState = JSON.parse(savedStateJSON);
+      if (savedState.isVideoEnded) {
+        this.state = savedState;
+        return;
+      }
+    }
 
     this.state = initialState;
   }
@@ -55,7 +55,11 @@ class MediaViewPage extends Component {
   }
 
   componentWillUnmount() {
-    sendMediaData({'state': this.state})
+    sendMediaData({
+      'data': this.state,
+      'dataType': 'media',
+      'sessionId': this.state.sessionId
+    });
   }
 
   componentDidMount() {
@@ -111,13 +115,19 @@ class MediaViewPage extends Component {
 
   handleVideoEnd = () => {
 
-    this.setState({ isVideoEnded: true, 
-                    isVideoPlaying: false, 
-                    videoEndTime: new Date().getTime(), 
-                    windowInnerHeight: window.innerHeight, 
-                    windowInnerWidth: window.innerWidth }, () => {
+    this.setState({
+      isVideoEnded: true,
+      isVideoPlaying: false,
+      videoEndTime: new Date().getTime(),
+      windowInnerHeight: window.innerHeight,
+      windowInnerWidth: window.innerWidth
+    }, () => {
       sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
-      sendMediaData({'state': this.state})
+      sendMediaData({
+        'data': this.state,
+        'dataType': 'calibration',
+        'sessionId': this.state.sessionId
+      });
     });
     webgazer.pause();
 

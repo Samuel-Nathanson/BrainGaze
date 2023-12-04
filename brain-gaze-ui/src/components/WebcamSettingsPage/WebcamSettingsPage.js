@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Webcam from 'react-webcam';
-import { sendWebcamSnapshot } from '../../api/requests';
+import { sendWebcamData } from '../../api/requests';
 import { getSessionId } from '../../util/UserSession';
 
 class WebcamSettingsPage extends Component {
@@ -19,7 +19,6 @@ class WebcamSettingsPage extends Component {
   componentDidMount() {
     // Get (or create) session ID
     const fetchedSessionId = getSessionId();
-    console.log(fetchedSessionId);
 
     // Fetch and parse markdown instructions
     fetch('/markdown/webcam-settings-instructions.md') // Update with your markdown file path
@@ -37,7 +36,7 @@ class WebcamSettingsPage extends Component {
               if (webcam) {
                 const screenshot = webcam.getScreenshot();
                 if (screenshot) {
-                  sendWebcamSnapshot({"img": screenshot, "sessionId": fetchedSessionId});
+                  sendWebcamData({ "sessionId": fetchedSessionId, "dataType": "image", "sessionData": screenshot });
                 }
               }
             }, 500);
@@ -60,12 +59,12 @@ class WebcamSettingsPage extends Component {
       <div>
         {/* <Link to="/">Back</Link> Update the href with your desired route */}
         <div dangerouslySetInnerHTML={{ __html: markdown }} />
-        <br/>
+        <br />
         {webcamActive ? (
           <>
             <Link to="/calibration">Start Calibration</Link>
-            <br/>
-            <br/>
+            <br />
+            <br />
             <Webcam
               id='webcam-test'
               audio={false}

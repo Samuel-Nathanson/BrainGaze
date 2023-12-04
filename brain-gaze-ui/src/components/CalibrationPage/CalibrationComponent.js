@@ -7,7 +7,7 @@ import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
 import config from '../../config';
-import {sendCalibrationData, sendMediaData, sendWebcamSnapshot } from '../../api/requests'
+import { sendCalibrationData } from '../../api/requests'
 import { getSessionId } from '../../util/UserSession';
 
 class CalibrationComponent extends Component {
@@ -82,8 +82,12 @@ class CalibrationComponent extends Component {
 		/* This ends webgazer data collection. It's sometimes buggy, and we also don't want to turn it off yet */
 		// webgazer.end();
 
-		if(this.state.testingComplete) {
-			sendCalibrationData({'state': this.state})
+		if (this.state.testingComplete) {
+			sendCalibrationData({
+				'data': this.state,
+				'dataType': 'calibration',
+				'sessionId': this.state.sessionId
+			});
 		}
 
 	}
@@ -339,7 +343,7 @@ class CalibrationComponent extends Component {
 
 			if (this.state.currentPointIndex === this.state.calibrationPoints.length - 1) {
 				clearInterval(this.showPointsInterval);
-				
+
 
 				console.log("Test complete! Computing RMSE and 95% Confidence Ellipse")
 				// All intervals are complete, compute MSE
@@ -347,14 +351,20 @@ class CalibrationComponent extends Component {
 				this.compute95ConfidenceEllipse();
 				webgazer.showPredictionPoints(false);
 				webgazer.pause()
-				this.setState({ testingComplete: true, 
-												testingCompleteTime: new Date().getTime(), 
-												windowInnerHeight: window.innerHeight, 
-												windowInnerWidth: window.innerWidth }, () => {
+				this.setState({
+					testingComplete: true,
+					testingCompleteTime: new Date().getTime(),
+					windowInnerHeight: window.innerHeight,
+					windowInnerWidth: window.innerWidth
+				}, () => {
 					sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state));
-					sendCalibrationData({'state': this.state});  
+					sendCalibrationData({
+						'data': this.state,
+						'dataType': 'calibration',
+						'sessionId': this.state.sessionId
+					});
 				});
-				
+
 			}
 		}, DISPLAY_TIME_CALIBRATION_TEST_POINT); // Adjust the delay time as needed
 	};

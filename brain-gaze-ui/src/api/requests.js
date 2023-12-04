@@ -8,7 +8,7 @@ const sendCalibrationData = (sessionId, dataType, sessionData) => {
   try {
     const msgBody = {
       sessionId: sessionId,
-      sessionData: sessionData,
+      sessionData: JSON.stringify(sessionData),
       dataType: dataType
     };
 
@@ -38,7 +38,7 @@ const sendMediaViewData = (sessionId, dataType, sessionData) => {
   try {
     const msgBody = {
       sessionId: sessionId,
-      sessionData: sessionData,
+      sessionData: JSON.stringify(sessionData),
       dataType: dataType
     };
 
@@ -67,7 +67,7 @@ const sendWebcamData = (sessionId, dataType, sessionData) => {
   try {
     const msgBody = {
       sessionId: sessionId,
-      sessionData: sessionData,
+      sessionData: JSON.stringify(sessionData),
       dataType: dataType
     };
 
