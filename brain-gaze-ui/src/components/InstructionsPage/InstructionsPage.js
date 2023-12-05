@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import { Link } from 'react-router-dom';
 import { getSessionId } from '../../util/UserSession';
-import { get, put } from 'aws-amplify/api';
-
 
 const InstructionsPage = () => {
   const [markdown, setMarkdown] = useState('');
@@ -13,26 +11,26 @@ const InstructionsPage = () => {
 
     // declare the data fetching function
 
-    async function putData() {
-      try {
-        const calSess = {
-          sessionId: 'TestSessionId',
-          sessionData: 'TestSessionData',
-          dataType: 'TestDataType'
-        };
-        const restOperation = put({
-          apiName: 'braingazeAPI',
-          path: '/calibrationData',
-          options: {
-            body: calSess
-          }
-        });
-        const response = await restOperation.response;
-        console.log('PUT call succeeded: ', response);
-      } catch (err) {
-        console.log('PUT call failed: ', err);
-      }
-    }
+    // async function putData() {
+    //   try {
+    //     const calSess = {
+    //       sessionId: 'TestSessionId',
+    //       sessionData: 'TestSessionData',
+    //       dataType: 'TestDataType'
+    //     };
+    //     const restOperation = put({
+    //       apiName: 'braingazeAPI',
+    //       path: '/calibrationData',
+    //       options: {
+    //         body: calSess
+    //       }
+    //     });
+    //     const response = await restOperation.response;
+    //     console.log('PUT call succeeded: ', response);
+    //   } catch (err) {
+    //     console.log('PUT call failed: ', err);
+    //   }
+    // }
 
     // async function getData() {
     //   try {
@@ -50,7 +48,7 @@ const InstructionsPage = () => {
     // // call the function
     // getData();
 
-    putData();
+    // putData();
 
     const fetchedSessionId = getSessionId();
     console.log(fetchedSessionId);

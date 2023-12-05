@@ -14,14 +14,6 @@
     },
     "categories": {
       "function": {
-        "storeCalibrationData": {
-          "deploymentBucketName": "amplify-braingaze-master-75332-deployment",
-          "s3Key": "amplify-builds/storeCalibrationData-6f6536497046434c5948-build.zip"
-        },
-        "data": {
-          "deploymentBucketName": "amplify-braingaze-master-75332-deployment",
-          "s3Key": "amplify-builds/data-427879462b7567543956-build.zip"
-        },
         "dynamoDataCall": {
           "deploymentBucketName": "amplify-braingaze-master-75332-deployment",
           "s3Key": "amplify-builds/dynamoDataCall-43536d6e536d78496178-build.zip"

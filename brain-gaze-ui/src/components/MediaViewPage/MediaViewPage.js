@@ -55,11 +55,7 @@ class MediaViewPage extends Component {
   }
 
   componentWillUnmount() {
-    sendMediaViewData({
-      'data': this.state,
-      'dataType': 'media',
-      'sessionId': this.state.sessionId
-    });
+    sendMediaViewData(this.state.sessionId, 'media', this.state);
   }
 
   componentDidMount() {
@@ -123,11 +119,8 @@ class MediaViewPage extends Component {
       windowInnerWidth: window.innerWidth
     }, () => {
       sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
-      sendMediaViewData({
-        'data': this.state,
-        'dataType': 'calibration',
-        'sessionId': this.state.sessionId
-      });
+      sendMediaViewData(this.state.sessionId, 'media', this.state);
+
     });
     webgazer.pause();
 

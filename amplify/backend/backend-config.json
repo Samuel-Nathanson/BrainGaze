@@ -42,45 +42,7 @@
     }
   },
   "function": {
-    "data": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "braingazeData"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
     "dynamoDataCall": {
-      "build": true,
-      "dependsOn": [
-        {
-          "attributeEnvMap": {
-            "Arn": "TABLE_ARN",
-            "Name": "TABLE_NAME"
-          },
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "storage",
-          "resourceName": "braingazeData"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "storeCalibrationData": {
       "build": true,
       "dependsOn": [
         {
@@ -101,22 +63,6 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_data_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "data"
-        }
-      ]
-    },
-    "AMPLIFY_function_data_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "data"
-        }
-      ]
-    },
     "AMPLIFY_function_dynamoDataCall_deploymentBucketName": {
       "usedBy": [
         {
@@ -130,22 +76,6 @@
         {
           "category": "function",
           "resourceName": "dynamoDataCall"
-        }
-      ]
-    },
-    "AMPLIFY_function_storeCalibrationData_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "storeCalibrationData"
-        }
-      ]
-    },
-    "AMPLIFY_function_storeCalibrationData_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "storeCalibrationData"
         }
       ]
     }
