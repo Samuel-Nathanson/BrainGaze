@@ -36,7 +36,7 @@ class WebcamSettingsPage extends Component {
               if (webcam) {
                 const screenshot = webcam.getScreenshot();
                 if (screenshot) {
-                  sendWebcamData({ "sessionId": fetchedSessionId, "dataType": "image", "sessionData": screenshot });
+                  sendWebcamData(fetchedSessionId, "image", screenshot);
                 }
               }
             }, 500);

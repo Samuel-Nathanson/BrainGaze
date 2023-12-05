@@ -83,11 +83,7 @@ class CalibrationComponent extends Component {
 		// webgazer.end();
 
 		if (this.state.testingComplete) {
-			sendCalibrationData({
-				'data': this.state,
-				'dataType': 'calibration',
-				'sessionId': this.state.sessionId
-			});
+			sendCalibrationData(this.state.sessionId, 'calibration', this.state);
 		}
 
 	}
@@ -358,11 +354,7 @@ class CalibrationComponent extends Component {
 					windowInnerWidth: window.innerWidth
 				}, () => {
 					sessionStorage.setItem('calibrationComponentState', JSON.stringify(this.state));
-					sendCalibrationData({
-						'data': this.state,
-						'dataType': 'calibration',
-						'sessionId': this.state.sessionId
-					});
+					sendCalibrationData(this.state.sessionId, 'calibration', this.state);
 				});
 
 			}
