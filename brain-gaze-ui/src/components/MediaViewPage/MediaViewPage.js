@@ -110,20 +110,29 @@ class MediaViewPage extends Component {
   };
 
   handleVideoEnd = () => {
-
+    const videoElement = document.getElementById('video-player');
+    const containerElement = document.getElementById('video-container');
+  
+    const videoOffsetHeight = videoElement ? videoElement.offsetHeight : null;
+    const videoOffsetWidth = videoElement ? videoElement.offsetWidth : null;
+    const containerHeight = containerElement ? containerElement.clientHeight : null;
+    const containerWidth = containerElement ? containerElement.clientWidth : null;
+  
     this.setState({
       isVideoEnded: true,
       isVideoPlaying: false,
       videoEndTime: new Date().getTime(),
       windowInnerHeight: window.innerHeight,
-      windowInnerWidth: window.innerWidth
+      windowInnerWidth: window.innerWidth,
+      videoOffsetHeight: videoOffsetHeight,
+      videoOffsetWidth: videoOffsetWidth,
+      containerHeight: containerHeight,
+      containerWidth: containerWidth
     }, () => {
       sessionStorage.setItem('mediaViewComponentState', JSON.stringify(this.state));
       sendMediaViewData(this.state.sessionId, 'media', this.state);
-
     });
     webgazer.pause();
-
   };
 
   renderResultsTable() {
@@ -157,8 +166,9 @@ class MediaViewPage extends Component {
     return (
       <div>
         <div dangerouslySetInnerHTML={{ __html: this.state.markdown }} />
-        <div className='video-container'>
+        <div className='video-container' id="video-container">
           <video
+            id="video-player"
             ref={(el) => (this.videoElement = el)} // Store a reference to the video element
             controls
             className='react-player'

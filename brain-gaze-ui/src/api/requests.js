@@ -7,7 +7,7 @@ const sendCalibrationData = (sessionId, dataType, sessionData) => {
 
   try {
     const msgBody = {
-      sessionId: sessionId,
+      sessionId: sessionId + "-cal",
       sessionData: JSON.stringify(sessionData),
       dataType: dataType
     };
@@ -37,7 +37,7 @@ const sendCalibrationData = (sessionId, dataType, sessionData) => {
 const sendMediaViewData = (sessionId, dataType, sessionData) => {
   try {
     const msgBody = {
-      sessionId: sessionId,
+      sessionId: sessionId + "-med",
       sessionData: JSON.stringify(sessionData),
       dataType: dataType
     };
