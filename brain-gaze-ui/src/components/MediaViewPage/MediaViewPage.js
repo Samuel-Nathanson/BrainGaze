@@ -110,11 +110,11 @@ class MediaViewPage extends Component {
   };
 
   handleVideoEnd = () => {
-    const videoElement = document.getElementById('video-player');
+    const videoElement = document.getElementById('video-player')
     const containerElement = document.getElementById('video-container');
   
-    const videoOffsetHeight = videoElement ? videoElement.offsetHeight : null;
-    const videoOffsetWidth = videoElement ? videoElement.offsetWidth : null;
+    const videoOffsetHeight = videoElement ? videoElement.getBoundingClientRect().top : null;
+    const videoOffsetWidth = videoElement ? videoElement.getBoundingClientRect().left : null;
     const containerHeight = containerElement ? containerElement.clientHeight : null;
     const containerWidth = containerElement ? containerElement.clientWidth : null;
   
