@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import webgazer from 'webgazer'; // Import WebGazer
 import { getSessionId } from '../../util/UserSession';
 import { sendMediaViewData } from '../../api/requests';
+import config from '../../config';
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class MediaViewPage extends Component {
     const initialState = {
       sessionId: getSessionId(),
       markdown: '',
-      videoUrl: '/media/videos/eagle-stock-video.mp4',
+      videoUrl: config["VIDEO_URL"],
       isVideoPlaying: false, // Track video playing state
       isVideoEnded: false,
       videoEndTime: -1,

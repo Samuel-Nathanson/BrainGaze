@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import ErrorVisualization from './ErrorVisualization';
 import numeric from 'numeric'
 import { marked } from 'marked';
-import config from '../../config';
+import config from '../../debugConfig';
 import { sendCalibrationData } from '../../api/requests'
 import { getSessionId } from '../../util/UserSession';
 
