@@ -1,2 +1,2 @@
 ## Terms and Conditions 
-Your participation in this research involves web-based processing of video and eye-tracking data. 
+Your participation in this research involves web-based collection and processing of video and eye-tracking data. By using the BrainGaze application, you agree to collection and processing of eye tracking data for scientific analysis, which includes webcam data and gaze locations.     

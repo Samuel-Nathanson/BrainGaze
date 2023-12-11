@@ -1,7 +1,7 @@
 import config from "../config";
 import { put } from 'aws-amplify/api'
 
-const apiName = 'braingazeAPI'
+const apiName = config["API_NAME"]
 
 const sendCalibrationData = (sessionId, dataType, sessionData) => {
 
