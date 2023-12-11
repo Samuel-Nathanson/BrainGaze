@@ -22,6 +22,9 @@ Brain Gaze is a web-based eye-tracking application designed for crowdsourcing da
 - [x] **Documentation**: Comprehensive documentation for different roles.
 - [ ] **Data Deletion Option (Right to be Forgotten)**: Allow users to request data deletion.
 
+## Support
+Stuck on an issue? Want to learn more? Reach out to Samuel Nathanson -- samuel.nathanson@{jhu.edu}{jhuapl.edu} 
+
 ## Development Notes
 - The repository is set up into brain-gaze-ui and brain-gaze-server; 
 - The brain-gaze-ui contains the client-side user interface which participants will interact with.  
